@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Nerd - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Check authentication before page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Display user information
+            try {
+                const user = JSON.parse(currentUser);
+                document.getElementById('user-name').textContent = user.name || 'User';
+                document.getElementById('user-email').textContent = user.email || 'user@example.com';
+            } catch (e) {
+                console.error('Error parsing user data:', e);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="logo">Ask a Nerd</div>
+            <div class="nav-links">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Side Menu -->
+        <div class="side-menu">
+            <div class="side-menu-header">
+                <h3>Menu</h3>
+                <button class="close-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="side-menu-items">
+                <li class="side-menu-item" data-page="nerds">
+                    <i class="fas fa-users"></i>
+                    Available Nerds
+                </li>
+                <li class="side-menu-item" data-page="categories">
+                    <i class="fas fa-th-large"></i>
+                    Categories
+                </li>
+                <li class="side-menu-item" data-page="account">
+                    <i class="fas fa-user"></i>
+                    My Account
+                </li>
+                <li class="side-menu-item" data-page="pricing">
+                    <i class="fas fa-tags"></i>
+                    Pricing
+                </li>
+                <li class="side-menu-item" data-page="referral">
+                    <i class="fas fa-share-alt"></i>
+                    Refer a Friend
+                </li>
+                <li class="side-menu-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Nerds Section -->
+            <section id="nerds-section" class="active">
+                <div class="nerds-container">
+                    <h2>Available Nerds</h2>
+                    <div class="nerds-grid">
+                        <div class="nerd-card" data-nerd-id="1">
+                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Nerd 1" class="nerd-avatar">
+                            <h3>John Smith</h3>
+                            <p>Technology Expert</p>
+                            <div class="nerd-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.5</span>
+                            </div>
+                            <button class="btn-primary chat-btn">Chat Now</button>
+                        </div>
+                        <div class="nerd-card" data-nerd-id="2">
+                            <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Nerd 2" class="nerd-avatar">
+                            <h3>Sarah Johnson</h3>
+                            <p>Finance Specialist</p>
+                            <div class="nerd-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>5.0</span>
+                            </div>
+                            <button class="btn-primary chat-btn">Chat Now</button>
+                        </div>
+                        <div class="nerd-card" data-nerd-id="3">
+                            <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="Nerd 3" class="nerd-avatar">
+                            <h3>Mike Wilson</h3>
+                            <p>Science Expert</p>
+                            <div class="nerd-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.0</span>
+                            </div>
+                            <button class="btn-primary chat-btn">Chat Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section id="categories-section" class="hidden">
+                <div class="categories-container">
+                    <h2>Select Your Interests</h2>
+                    <p class="mb-3">Choose the categories you're interested in to see relevant nerds.</p>
+                    <div class="category-grid">
+                        <div class="category-card" data-category-id="tech">
+                            <i class="fas fa-laptop category-icon"></i>
+                            <h3>Technology</h3>
+                        </div>
+                        <div class="category-card" data-category-id="finance">
+                            <i class="fas fa-chart-line category-icon"></i>
+                            <h3>Finance</h3>
+                        </div>
+                        <div class="category-card" data-category-id="science">
+                            <i class="fas fa-flask category-icon"></i>
+                            <h3>Science</h3>
+                        </div>
+                        <div class="category-card" data-category-id="health">
+                            <i class="fas fa-heartbeat category-icon"></i>
+                            <h3>Health</h3>
+                        </div>
+                        <div class="category-card" data-category-id="education">
+                            <i class="fas fa-graduation-cap category-icon"></i>
+                            <h3>Education</h3>
+                        </div>
+                        <div class="category-card" data-category-id="business">
+                            <i class="fas fa-briefcase category-icon"></i>
+                            <h3>Business</h3>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn-primary" id="save-categories">Save Preferences</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account Section -->
+            <section id="account-section" class="hidden">
+                <div class="account-container">
+                    <h2>My Account</h2>
+                    <div class="account-info">
+                        <div class="user-profile">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Profile" class="user-avatar">
+                            <h3 id="user-name">User Name</h3>
+                            <p id="user-email">user@example.com</p>
+                        </div>
+                        <div class="account-actions">
+                            <button class="btn-secondary">Edit Profile</button>
+                            <button class="btn-secondary">Change Password</button>
+                            <button class="btn-secondary">Billing History</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="menu.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

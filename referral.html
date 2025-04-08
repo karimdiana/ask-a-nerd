@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Nerd - Refer a Friend</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="logo">Ask a Nerd</div>
+            <div class="nav-links">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Side Menu -->
+        <div class="side-menu">
+            <div class="side-menu-header">
+                <h3>Menu</h3>
+                <button class="close-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="side-menu-items">
+                <li class="side-menu-item" data-page="nerds">
+                    <i class="fas fa-users"></i>
+                    Available Nerds
+                </li>
+                <li class="side-menu-item" data-page="categories">
+                    <i class="fas fa-th-large"></i>
+                    Categories
+                </li>
+                <li class="side-menu-item" data-page="account">
+                    <i class="fas fa-user"></i>
+                    My Account
+                </li>
+                <li class="side-menu-item" data-page="pricing">
+                    <i class="fas fa-tags"></i>
+                    Pricing
+                </li>
+                <li class="side-menu-item" data-page="referral">
+                    <i class="fas fa-share-alt"></i>
+                    Refer a Friend
+                </li>
+                <li class="side-menu-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Referral Section -->
+            <section id="referral-section" class="active">
+                <div class="referral-container">
+                    <h2>Refer a Friend</h2>
+                    <p class="mb-4">Share Ask a Nerd with your friends and earn rewards!</p>
+                    
+                    <div class="referral-card">
+                        <div class="referral-header">
+                            <i class="fas fa-gift referral-icon"></i>
+                            <h3>Your Referral Rewards</h3>
+                        </div>
+                        <div class="referral-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">0</span>
+                                <span class="stat-label">Friends Referred</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">$0</span>
+                                <span class="stat-label">Rewards Earned</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-methods">
+                        <div class="referral-method">
+                            <h3>Your Promo Code</h3>
+                            <div class="promo-code-container">
+                                <div class="promo-code">NERD2023</div>
+                                <button class="btn-secondary copy-btn" data-copy="NERD2023">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <p class="mt-2">Share this code with friends. They'll get 20% off their first month!</p>
+                        </div>
+                        
+                        <div class="referral-method">
+                            <h3>Shareable Link</h3>
+                            <div class="share-link-container">
+                                <input type="text" class="share-link" value="https://askanerd.com/ref/NERD2023" readonly>
+                                <button class="btn-secondary copy-btn" data-copy="https://askanerd.com/ref/NERD2023">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <p class="mt-2">Share this link directly with friends</p>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-social">
+                        <h3>Share on Social Media</h3>
+                        <div class="social-buttons">
+                            <button class="social-btn facebook">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </button>
+                            <button class="social-btn twitter">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </button>
+                            <button class="social-btn linkedin">
+                                <i class="fab fa-linkedin-in"></i> LinkedIn
+                            </button>
+                            <button class="social-btn whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-terms">
+                        <h3>How It Works</h3>
+                        <ul class="terms-list">
+                            <li><i class="fas fa-check"></i> Share your unique promo code or link with friends</li>
+                            <li><i class="fas fa-check"></i> When they sign up and subscribe, you both get rewards</li>
+                            <li><i class="fas fa-check"></i> You earn $5 for each friend who subscribes</li>
+                            <li><i class="fas fa-check"></i> Your friends get 20% off their first month</li>
+                            <li><i class="fas fa-check"></i> Rewards are added to your account automatically</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="referral.js"></script>
+</body>
+</html> 

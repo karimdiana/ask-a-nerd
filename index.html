@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Nerd - Welcome</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('currentUser')) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="logo">Ask a Nerd</div>
+        </nav>
+
+        <div class="auth-container active">
+            <div class="auth-box">
+                <h2>Welcome to Ask a Nerd</h2>
+                <p>Get expert advice from our community of specialists</p>
+                
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="signin">Sign In</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                
+                <div id="signin-form" class="auth-form active">
+                    <div class="auth-buttons">
+                        <button class="btn-google" id="google-signin">
+                            <img src="https://www.google.com/favicon.ico" alt="Google">
+                            Continue with Google
+                        </button>
+                        <div class="divider">or</div>
+                    </div>
+                    <form id="loginForm" class="auth-form-fields">
+                        <input type="email" id="signin-email" name="email" placeholder="Email" required>
+                        <input type="password" id="signin-password" name="password" placeholder="Password" required>
+                        <button type="submit" class="btn-primary">Sign In</button>
+                    </form>
+                </div>
+                
+                <div id="signup-form" class="auth-form">
+                    <form id="signupForm" class="auth-form-fields">
+                        <input type="text" id="signup-name" name="fullName" placeholder="Full Name" required>
+                        <input type="email" id="signup-email" name="email" placeholder="Email" required>
+                        <input type="password" id="signup-password" name="password" placeholder="Password" required>
+                        <input type="password" id="signup-confirm-password" name="confirmPassword" placeholder="Confirm Password" required>
+                        <button type="submit" class="btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html> 

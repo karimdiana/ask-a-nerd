@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Nerd - Categories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="top-nav">
+            <div class="logo">Ask a Nerd</div>
+            <div class="nav-links">
+                <button id="menuToggle" class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button id="signInBtn" class="btn-primary">Sign In</button>
+            </div>
+        </nav>
+
+        <div id="sideMenu" class="side-menu">
+            <div class="side-menu-header">
+                <h3>Menu</h3>
+                <button id="closeMenu" class="close-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="side-menu-items">
+                <li class="side-menu-item" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </li>
+                <li class="side-menu-item active" data-page="categories">
+                    <i class="fas fa-th-large"></i>
+                    <span>Categories</span>
+                </li>
+                <li class="side-menu-item" data-page="account">
+                    <i class="fas fa-user"></i>
+                    <span>My Account</span>
+                </li>
+                <li class="side-menu-item" data-page="pricing">
+                    <i class="fas fa-tag"></i>
+                    <span>Pricing</span>
+                </li>
+                <li class="side-menu-item" data-page="refer">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Refer a Friend</span>
+                </li>
+            </ul>
+        </div>
+
+        <main class="main-content">
+            <div id="categories-container" class="categories-container">
+                <h2>Choose Your Interests</h2>
+                <div class="category-grid">
+                    <div class="category-card" data-category="sports">
+                        <i class="category-icon fas fa-running"></i>
+                        <span>Sports</span>
+                    </div>
+                    <div class="category-card" data-category="relationships">
+                        <i class="category-icon fas fa-heart"></i>
+                        <span>Relationships</span>
+                    </div>
+                    <div class="category-card" data-category="career">
+                        <i class="category-icon fas fa-briefcase"></i>
+                        <span>Career</span>
+                    </div>
+                    <div class="category-card" data-category="health">
+                        <i class="category-icon fas fa-heartbeat"></i>
+                        <span>Health</span>
+                    </div>
+                    <div class="category-card" data-category="finance">
+                        <i class="category-icon fas fa-chart-line"></i>
+                        <span>Finance</span>
+                    </div>
+                    <div class="category-card" data-category="tech">
+                        <i class="category-icon fas fa-laptop-code"></i>
+                        <span>Technology</span>
+                    </div>
+                </div>
+                <button id="continueBtn" class="btn-primary" style="margin-top: 20px; width: 100%;">Continue</button>
+            </div>
+        </main>
+
+        <footer class="bottom-nav">
+            <button class="nav-item" data-page="home">
+                <i class="nav-icon fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" data-page="search">
+                <i class="nav-icon fas fa-search"></i>
+                <span>Search</span>
+            </button>
+            <button class="nav-item" data-page="account">
+                <i class="nav-icon fas fa-user"></i>
+                <span>Account</span>
+            </button>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html> 
