@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerd - Find Your Expert</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="gradient-bg">
+    <div class="container">
+        <div class="auth-card">
+            <h1 class="app-title">Nerd</h1>
+            <p class="app-subtitle">Connect with experts in any field</p>
+            
+            <div class="tabs">
+                <button class="tab active" data-tab="signin">Sign In</button>
+                <button class="tab" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <div class="tab-content" id="signin">
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="window.location.href='dashboard.html'; return false;">Sign In</button>
+                </form>
+                <p class="switch-prompt">New here? <a href="#" class="switch-tab" data-tab="signup">Sign up now</a></p>
+            </div>
+            
+            <div class="tab-content hidden" id="signup">
+                <form>
+                    <div class="form-group">
+                        <label for="signup-name">Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="window.location.href='categories.html'; return false;">Sign Up</button>
+                </form>
+                <p class="switch-prompt">Already have an account? <a href="#" class="switch-tab" data-tab="signin">Log in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const switchLinks = document.querySelectorAll('.switch-tab');
+            
+            function switchTab(tabId) {
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show the selected tab content
+                document.getElementById(tabId).classList.remove('hidden');
+                
+                // Update active tab
+                tabs.forEach(tab => {
+                    if (tab.dataset.tab === tabId) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+            }
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    switchTab(this.dataset.tab);
+                });
+            });
+            
+            switchLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    switchTab(this.dataset.tab);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

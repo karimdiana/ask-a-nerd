@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Categories - Nerd</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card categories-card">
+            <h1 class="page-title">Select Your Interests</h1>
+            <p class="page-subtitle">Choose categories that interest you</p>
+            
+            <div class="categories-grid">
+                <div class="category-item" data-category="tech">
+                    <div class="category-content">
+                        <span class="category-name">Technology</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="math">
+                    <div class="category-content">
+                        <span class="category-name">Mathematics</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="art">
+                    <div class="category-content">
+                        <span class="category-name">Art & Design</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="science">
+                    <div class="category-content">
+                        <span class="category-name">Science</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="history">
+                    <div class="category-content">
+                        <span class="category-name">History</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="business">
+                    <div class="category-content">
+                        <span class="category-name">Business</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="literature">
+                    <div class="category-content">
+                        <span class="category-name">Literature</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="music">
+                    <div class="category-content">
+                        <span class="category-name">Music</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="selected-categories">
+                <p>Selected: <span id="category-count">0</span></p>
+            </div>
+            
+            <button id="continue-btn" class="btn btn-primary" disabled onclick="window.location.href='dashboard.html'">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryItems = document.querySelectorAll('.category-item');
+            const continueBtn = document.getElementById('continue-btn');
+            const categoryCountSpan = document.getElementById('category-count');
+            let selectedCount = 0;
+            
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    
+                    // Update selected count
+                    selectedCount = document.querySelectorAll('.category-item.selected').length;
+                    categoryCountSpan.textContent = selectedCount;
+                    
+                    // Enable continue button if at least one category selected
+                    if (selectedCount > 0) {
+                        continueBtn.disabled = false;
+                    } else {
+                        continueBtn.disabled = true;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

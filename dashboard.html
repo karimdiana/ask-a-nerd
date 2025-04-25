@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Nerd</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="header-left">
+            <a href="account.html" class="user-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 21C20 16.5817 16.4183 13 12 13C7.58172 13 4 16.5817 4 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+        <div class="header-center">
+            <h1 class="header-title">Nerd</h1>
+        </div>
+        <div class="header-right">
+            <div class="notifications-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="notification-dot"></span>
+            </div>
+            <a href="index.html" class="signout-btn">Sign Out</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Greeting Banner -->
+            <div class="greeting-banner">
+                <h2 class="greeting-text">Welcome back! 👋</h2>
+                <p class="greeting-subtitle">Here are nerds in your favorite categories:</p>
+            </div>
+            
+            <!-- Category Filter Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all">All</button>
+                <button class="category-tab" data-category="business">Business</button>
+                <button class="category-tab" data-category="executive">Executive</button>
+                <button class="category-tab" data-category="marketing">Marketing</button>
+                <button class="category-tab" data-category="academic">Academic</button>
+                <button class="category-tab" data-category="entrepreneur">Entrepreneur</button>
+                <button class="category-tab" data-category="mentor">Mentoring</button>
+                <button class="category-tab" data-category="education">Education</button>
+            </div>
+            
+            <!-- Search and Sort Controls -->
+            <div class="controls-row">
+                <div class="search-container">
+                    <span class="search-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <input type="text" placeholder="Search nerds by name or category..." class="search-input">
+                </div>
+                <div class="sort-favorites">
+                    <button class="favorites-toggle">
+                        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        Favorites
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Nerds Grid -->
+            <div class="nerds-grid">
+                <!-- Nerd Card 1 -->
+                <div class="nerd-card" data-categories="business,executive">
+                    <div class="nerd-card-header">
+                        <div class="nerd-info-primary">
+                            <h3 class="nerd-name">Andrew DeGood</h3>
+                            <span class="online-status"></span>
+                        </div>
+                        <button class="favorite-btn">
+                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="nerd-categories">
+                        <span class="category-tag">Business</span>
+                        <span class="category-tag">Executive</span>
+                    </div>
+                    <p class="nerd-mini-bio">VP of Business Development at Ask A Bob 💼</p>
+                    <div class="nerd-actions">
+                        <button class="btn btn-primary btn-chat">Chat with Me</button>
+                        <button class="btn btn-outline btn-about">About Me</button>
+                    </div>
+                    <div class="nerd-image" data-profile-pic="photos/andrew.png"></div>
+                </div>
+                
+                <!-- Nerd Card 2 -->
+                <div class="nerd-card" data-categories="marketing,business,academic">
+                    <div class="nerd-card-header">
+                        <div class="nerd-info-primary">
+                            <h3 class="nerd-name">Lisa Meneau</h3>
+                            <span class="online-status"></span>
+                        </div>
+                        <button class="favorite-btn">
+                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="nerd-categories">
+                        <span class="category-tag">Marketing</span>
+                        <span class="category-tag">Academic</span>
+                    </div>
+                    <p class="nerd-mini-bio">Clinical Assistant Professor of Marketing 📚</p>
+                    <div class="nerd-actions">
+                        <button class="btn btn-primary btn-chat">Chat with Me</button>
+                        <button class="btn btn-outline btn-about">About Me</button>
+                    </div>
+                    <div class="nerd-image" data-profile-pic="photos/lisa.png"></div>
+                </div>
+                
+                <!-- Nerd Card 3 -->
+                <div class="nerd-card" data-categories="business,entrepreneur,mentor">
+                    <div class="nerd-card-header">
+                        <div class="nerd-info-primary">
+                            <h3 class="nerd-name">Karl Fruecht</h3>
+                            <span class="online-status offline"></span>
+                        </div>
+                        <button class="favorite-btn">
+                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="nerd-categories">
+                        <span class="category-tag">Entrepreneurship</span>
+                        <span class="category-tag">Mentoring</span>
+                    </div>
+                    <p class="nerd-mini-bio">Co-Founder and Master of Mentoring 🚀</p>
+                    <div class="nerd-actions">
+                        <button class="btn btn-primary btn-chat">Chat with Me</button>
+                        <button class="btn btn-outline btn-about">About Me</button>
+                    </div>
+                    <div class="nerd-image" data-profile-pic="photos/karl.png"></div>
+                </div>
+                
+                <!-- Nerd Card 4 -->
+                <div class="nerd-card" data-categories="education,academic">
+                    <div class="nerd-card-header">
+                        <div class="nerd-info-primary">
+                            <h3 class="nerd-name">Chadi Braish</h3>
+                            <span class="online-status"></span>
+                        </div>
+                        <button class="favorite-btn active">
+                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" fill="currentColor" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="nerd-categories">
+                        <span class="category-tag">Education</span>
+                        <span class="category-tag">Business</span>
+                    </div>
+                    <p class="nerd-mini-bio">Executive Director of Continuing Studies 🎓</p>
+                    <div class="nerd-actions">
+                        <button class="btn btn-primary btn-chat">Chat with Me</button>
+                        <button class="btn btn-outline btn-about">About Me</button>
+                    </div>
+                    <div class="nerd-image" data-profile-pic="photos/chadi.png"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- About Me Modal (Hidden by default) -->
+    <div class="modal-overlay hidden" id="aboutModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">About Nerd</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="about-nerd-profile">
+                    <div class="about-nerd-header">
+                        <div class="about-nerd-avatar" id="modal-avatar" style="background-image: url('photos/andrew.png');"></div>
+                        <div>
+                            <h3 class="about-nerd-name" id="modal-name">Andrew DeGood</h3>
+                            <div class="about-nerd-categories" id="modal-categories">
+                                <span class="category-tag">Business</span>
+                                <span class="category-tag">Executive</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="about-nerd-bio" id="modal-bio">
+                        Andrew DeGood serves as Inglet Blair, a QC Ally Company's Vice President of Business Development. 
+                        In this role, he fosters lasting relationships through a commitment to true partnership with both 
+                        new and existing clients.
+                        <br><br>
+                        Seasoned in the realms of finance and technology, Andrew brings over 20 years of diverse experience 
+                        as a founder and C-suite executive. He has successfully navigated businesses from startups to Fortune 
+                        500 companies, specializing in operations, product and business development, as well as client service 
+                        management.
+                        <br><br>
+                        Andrew's approach is rooted in strategic growth, innovation, and fostering mentally healthy workplace 
+                        cultures. Passionate about mental health advocacy and a compelling communicator, he is dedicated to 
+                        guiding companies towards sustainable success and cultivating next-level teams.
+                    </p>
+                    
+                    <div class="about-company" id="modal-company">
+                        <h4>About Ask A Bob</h4>
+                        <p>Get Instant Answers for your Enterprise Teams. It's like having a trusted ally in your corner, 
+                        ready to tackle all of your business needs. Your own private, secure LLM trained with your company's 
+                        data, helping your teams learn and move at lightspeed.</p>
+                    </div>
+                    
+                    <div class="about-nerd-reviews">
+                        <h4>Reviews</h4>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="review-author">Sarah T.</span>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">Andrew provided invaluable insights for our business strategy. His experience is evident in every conversation.</p>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="review-author">Michael L.</span>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p class="review-text">A true business development expert. Andrew helped us navigate complex partnership negotiations with ease.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-chat-modal">Chat with Me</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Panel (Hidden by default) -->
+    <div class="chat-panel hidden" id="chatPanel">
+        <div class="chat-header">
+            <h3 class="chat-title">Chat with <span class="chat-nerd-name">Andrew DeGood</span></h3>
+            <button class="chat-close">&times;</button>
+        </div>
+        <div class="chat-messages">
+            <div class="chat-message nerd-message">
+                <p>Hi there! I'm Andrew, how can I help you with business development today?</p>
+            </div>
+            <!-- More messages will appear here when chatting -->
+        </div>
+        <div class="chat-input-area">
+            <textarea class="chat-input" placeholder="Type your message..."></textarea>
+            <button class="chat-send-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data for each nerd
+            const nerdProfiles = {
+                'Andrew DeGood': {
+                    categories: ['Business', 'Executive'],
+                    bio: `Andrew DeGood serves as Inglet Blair, a QC Ally Company's Vice President of Business Development. 
+                          In this role, he fosters lasting relationships through a commitment to true partnership with both 
+                          new and existing clients.
+                          <br><br>
+                          Seasoned in the realms of finance and technology, Andrew brings over 20 years of diverse experience 
+                          as a founder and C-suite executive. He has successfully navigated businesses from startups to Fortune 
+                          500 companies, specializing in operations, product and business development, as well as client service 
+                          management.
+                          <br><br>
+                          Andrew's approach is rooted in strategic growth, innovation, and fostering mentally healthy workplace 
+                          cultures. Passionate about mental health advocacy and a compelling communicator, he is dedicated to 
+                          guiding companies towards sustainable success and cultivating next-level teams.`,
+                    company: {
+                        name: 'Ask A Bob',
+                        description: `Get Instant Answers for your Enterprise Teams. It's like having a trusted ally in your corner, 
+                                     ready to tackle all of your business needs. Your own private, secure LLM trained with your company's 
+                                     data, helping your teams learn and move at lightspeed.`
+                    },
+                    avatar: 'photos/andrew.png'
+                },
+                'Lisa Meneau': {
+                    categories: ['Marketing', 'Academic'],
+                    bio: `Lisa Meneau is a Clinical Assistant Professor of Marketing in the Department of Management and Marketing. 
+                          Upon graduating from the Doctorate of Business Administration Program, Hough Graduate School of Business, 
+                          University of Florida, she took a visiting assistant marketing professor position at Purdue University Fort Wayne.
+                          <br><br>
+                          Her academic journey began because of her desire to share her experiences with others who were starting 
+                          their careers. She has held senior positions at large regional banks in the Midwest and Mid-Atlantic. 
+                          In 2013, Lisa and her husband decided to move back to Michigan.
+                          <br><br>
+                          She took this unique opportunity to utilize her industry experience and academic background to enter academia. 
+                          Obtaining her doctorate and teaching at the college level has been a dream career for her for many years.
+                          <br><br>
+                          She also completed the 2018 Chicago Marathon.`,
+                    company: {
+                        name: 'Purdue University',
+                        description: `As a marketing manager and product innovator, Lisa's primary role was creating marketing strategies 
+                                     and introducing new products and services to consumers. Her success can be attributed to knowing the 
+                                     customer, understanding the business, and looking for opportunities to develop competitive advantages.`
+                    },
+                    avatar: 'photos/lisa.png'
+                },
+                'Karl Fruecht': {
+                    categories: ['Entrepreneurship', 'Mentoring'],
+                    bio: `Karl mentors and guides student teams, and actively recruits other business professionals to lend their 
+                          own time and expertise to programs. As a successful intrapreneur, Karl has the knowledge and experience to 
+                          help others identify market opportunities and growth targets with strategy, technology and know-how.
+                          <br><br>
+                          Showing that inspiration can come at any time, Karl and Michael Miles proved that a few years back as they 
+                          were reflecting on education at a graduation party and were inspired to start Uncharted Learning. Their goal 
+                          was to shape the future of high school business education with an approach that engaged and empowered students 
+                          in new ways.
+                          <br><br>
+                          Looking Back: "I've been able to have an impact on some cool businesses and amazing projects, along side some good people."
+                          <br>
+                          Looking forward: "Let's get students to create their own similar experiences."`,
+                    company: {
+                        name: 'Uncharted Learning',
+                        description: `"There are only two types of people in the world: People afraid to try, and people not afraid to be wrong."
+                                     Karl's wisdom and approach to entrepreneurship has shaped the educational experience of many students.`
+                    },
+                    avatar: 'photos/karl.png'
+                },
+                'Chadi Braish': {
+                    categories: ['Education', 'Business'],
+                    bio: `Chadi Braish serves as the Executive Director of Continuing Studies, bringing valuable expertise in 
+                          educational administration and business practices to the role. With a Master of Business Administration 
+                          degree, Chadi combines strong academic credentials with practical business experience.
+                          <br><br>
+                          He is responsible for developing and implementing continuing education programs, working closely with 
+                          faculty and industry partners to ensure course offerings meet the needs of adult learners and professionals 
+                          seeking to advance their careers.
+                          <br><br>
+                          Chadi's leadership focuses on creating accessible, high-quality educational opportunities that bridge 
+                          the gap between academic knowledge and workforce demands in the modern economy.`,
+                    company: {
+                        name: 'Continuing Studies Department',
+                        description: `The Continuing Studies Department offers professional development courses, certificate programs, 
+                                     and non-degree learning opportunities for adult learners looking to enhance their skills or 
+                                     transition to new career paths.`
+                    },
+                    avatar: 'photos/chadi.png'
+                }
+            };
+
+            // Load profile images for cards
+            const profilePics = document.querySelectorAll('.nerd-image');
+            
+            profilePics.forEach(pic => {
+                const card = pic.closest('.nerd-card');
+                const nerdName = card.querySelector('.nerd-name').textContent;
+                const nerdData = nerdProfiles[nerdName];
+                
+                if (nerdData) {
+                    pic.style.backgroundImage = `url('${nerdData.avatar}')`;
+                    pic.style.display = 'block';
+                }
+            });
+            
+            // Category tabs functionality
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const nerdCards = document.querySelectorAll('.nerd-card');
+            
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    const selectedCategory = this.getAttribute('data-category');
+                    
+                    // Filter nerd cards
+                    nerdCards.forEach(card => {
+                        const categories = card.getAttribute('data-categories').split(',');
+                        
+                        if (selectedCategory === 'all') {
+                            card.style.display = 'flex';
+                        } else if (categories.includes(selectedCategory)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                nerdCards.forEach(card => {
+                    const name = card.querySelector('.nerd-name').textContent.toLowerCase();
+                    const categories = card.getAttribute('data-categories').toLowerCase();
+                    const bio = card.querySelector('.nerd-mini-bio').textContent.toLowerCase();
+                    
+                    if (
+                        name.includes(searchTerm) || 
+                        categories.includes(searchTerm) || 
+                        bio.includes(searchTerm)
+                    ) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // Favorite button functionality
+            const favoriteButtons = document.querySelectorAll('.favorite-btn');
+            favoriteButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent triggering card click
+                    this.classList.toggle('active');
+                    const path = this.querySelector('path');
+                    if (this.classList.contains('active')) {
+                        path.setAttribute('fill', 'currentColor');
+                    } else {
+                        path.setAttribute('fill', 'none');
+                    }
+                });
+            });
+            
+            // Favorites toggle functionality
+            const favoritesToggle = document.querySelector('.favorites-toggle');
+            let showingFavorites = false;
+            
+            favoritesToggle.addEventListener('click', function() {
+                showingFavorites = !showingFavorites;
+                
+                if (showingFavorites) {
+                    this.classList.add('active');
+                    nerdCards.forEach(card => {
+                        const isFavorite = card.querySelector('.favorite-btn').classList.contains('active');
+                        card.style.display = isFavorite ? 'flex' : 'none';
+                    });
+                } else {
+                    this.classList.remove('active');
+                    // Show all cards or respect the current category filter
+                    const activeCategory = document.querySelector('.category-tab.active').getAttribute('data-category');
+                    nerdCards.forEach(card => {
+                        const categories = card.getAttribute('data-categories').split(',');
+                        if (activeCategory === 'all') {
+                            card.style.display = 'flex';
+                        } else if (categories.includes(activeCategory)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+
+            // About Me button functionality
+            const aboutButtons = document.querySelectorAll('.btn-about');
+            const aboutModal = document.getElementById('aboutModal');
+            const modalClose = document.querySelector('.modal-close');
+            
+            aboutButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Get the nerd name from the card
+                    const card = this.closest('.nerd-card');
+                    const nerdName = card.querySelector('.nerd-name').textContent;
+                    const nerdData = nerdProfiles[nerdName];
+                    
+                    if (nerdData) {
+                        // Update modal content
+                        document.getElementById('modal-name').textContent = nerdName;
+                        document.getElementById('modal-bio').innerHTML = nerdData.bio;
+                        
+                        // Update categories
+                        const categoriesContainer = document.getElementById('modal-categories');
+                        categoriesContainer.innerHTML = '';
+                        nerdData.categories.forEach(category => {
+                            const span = document.createElement('span');
+                            span.className = 'category-tag';
+                            span.textContent = category;
+                            categoriesContainer.appendChild(span);
+                        });
+                        
+                        // Update company info
+                        const companySection = document.getElementById('modal-company');
+                        companySection.innerHTML = `
+                            <h4>About ${nerdData.company.name}</h4>
+                            <p>${nerdData.company.description}</p>
+                        `;
+                        
+                        // Update avatar
+                        const avatar = document.getElementById('modal-avatar');
+                        avatar.style.backgroundImage = `url('${nerdData.avatar}')`;
+                    }
+                    
+                    // Show modal
+                    aboutModal.classList.remove('hidden');
+                });
+            });
+            
+            modalClose.addEventListener('click', function() {
+                aboutModal.classList.add('hidden');
+            });
+            
+            // Chat button functionality
+            const chatButtons = document.querySelectorAll('.btn-chat, .btn-chat-modal');
+            const chatPanel = document.getElementById('chatPanel');
+            const chatClose = document.querySelector('.chat-close');
+            
+            chatButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Get the nerd name - either from card or modal
+                    let nerdName;
+                    if (this.classList.contains('btn-chat')) {
+                        // From card
+                        const card = this.closest('.nerd-card');
+                        nerdName = card.querySelector('.nerd-name').textContent;
+                    } else {
+                        // From modal
+                        nerdName = document.getElementById('modal-name').textContent;
+                    }
+                    
+                    // Update chat panel with nerd's name
+                    document.querySelector('.chat-nerd-name').textContent = nerdName;
+                    
+                    // Update greeting message based on nerd's expertise
+                    const nerdData = nerdProfiles[nerdName];
+                    const firstCategory = nerdData ? nerdData.categories[0].toLowerCase() : 'business';
+                    
+                    document.querySelector('.nerd-message p').textContent = 
+                        `Hi there! I'm ${nerdName}, how can I help you with ${firstCategory} today?`;
+                    
+                    // Show chat panel
+                    chatPanel.classList.remove('hidden');
+                    
+                    // Hide modal if it's open
+                    aboutModal.classList.add('hidden');
+                });
+            });
+            
+            chatClose.addEventListener('click', function() {
+                chatPanel.classList.add('hidden');
+            });
+            
+            // Click outside to close modal
+            window.addEventListener('click', function(e) {
+                if (e.target === aboutModal) {
+                    aboutModal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
