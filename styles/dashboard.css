@@ -646,11 +646,12 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
 }
 
 .chat-message p {
-    padding: 0.85rem 1.25rem;
-    border-radius: 18px;
+    padding: 0;
+    border-radius: 0;
     display: inline-block;
     line-height: 1.5;
     margin: 0;
+    background: none;
 }
 
 .nerd-message {
@@ -658,9 +659,8 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
 }
 
 .nerd-message p {
-    background-color: #f1f5f9;
-    color: #334155;
-    border-top-left-radius: 5px;
+    background: none;
+    color: var(--text-color);
 }
 
 .user-message {
@@ -669,9 +669,8 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
 }
 
 .user-message p {
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
-    color: white;
-    border-top-right-radius: 5px;
+    background: none;
+    color: var(--text-color);
 }
 
 .chat-input-area {
@@ -740,6 +739,7 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     background-size: cover;
     background-position: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
 /* Responsive adjustments */
@@ -801,32 +801,29 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     
     .nerd-card {
         padding: 1.25rem;
-        padding-top: 4.5rem; /* Make room for the image at the top */
+        padding-top: 60px; /* Increased padding to accommodate the image */
+        margin-top: 40px; /* Add margin to make room for the floating image */
         position: relative;
     }
     
-    /* Reposition the image to be centered at the top of the card */
+    /* Reposition and resize the image for mobile */
     .nerd-image {
         position: absolute;
-        top: -30px;
+        top: -35px; /* Pull the image up to overlap with the margin */
         right: 50%;
         transform: translateX(50%);
-        width: 80px;
-        height: 80px;
-        z-index: 3;
+        width: 90px; /* Slightly larger on mobile */
+        height: 90px;
         border: 3px solid white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+        background-color: white;
     }
     
-    /* Adjust positioning of favorite button */
+    /* Ensure the favorite button doesn't overlap with the image */
     .favorite-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-    
-    /* Add more top margin to the card header to make room for the image */
-    .nerd-card-header {
-        margin-top: 0.5rem;
+        top: 15px;
+        right: 15px;
+        z-index: 3;
     }
     
     /* Center the nerd name on mobile */
@@ -865,13 +862,14 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
 @media (max-width: 375px) {
     .nerd-card {
         padding: 1rem;
-        padding-top: 3.5rem;
+        padding-top: 50px;
+        margin-top: 35px;
     }
     
     .nerd-image {
-        width: 70px;
-        height: 70px;
-        top: -25px;
+        width: 80px; /* Slightly smaller for very small screens */
+        height: 80px;
+        top: -30px;
     }
     
     .favorite-btn {

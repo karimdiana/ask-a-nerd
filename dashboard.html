@@ -21,16 +21,11 @@
             </a>
         </div>
         <div class="header-center">
-            <h1 class="header-title">Nerd</h1>
+            <a href="dashboard.html" class="header-logo-link">
+                <img src="photos/nerd.png" alt="Nerd" class="header-logo">
+            </a>
         </div>
         <div class="header-right">
-            <div class="notifications-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="notification-dot"></span>
-            </div>
             <a href="index.html" class="signout-btn">Sign Out</a>
         </div>
     </header>
@@ -247,21 +242,339 @@
         </div>
     </div>
 
-    <!-- Chat Panel (Hidden by default) -->
+    <!-- Chat Panel Styling -->
+    <style>
+        /* Chat Panel Container */
+        .chat-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 380px;
+            max-width: calc(100vw - 40px);
+            height: 600px;
+            max-height: calc(100vh - 100px);
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .chat-panel {
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+        }
+
+        /* Chat Header */
+        .chat-header {
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #64748b;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #f8fafc;
+        }
+
+        /* Message Bubbles Base Styles */
+        .chat-message {
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .message-content {
+            margin: 0;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* User Message Styling */
+        .user-message .message-content {
+            background: #2563eb;
+            color: white;
+            border-radius: 16px 16px 4px 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Nerd Message Styling */
+        .nerd-message .message-content {
+            background: white;
+            color: #1e293b;
+            border-radius: 16px 16px 16px 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Message Time */
+        .message-time {
+            font-size: 0.75rem;
+            color: #64748b;
+            padding: 0 8px;
+        }
+
+        .user-message .message-time {
+            align-self: flex-end;
+        }
+
+        .nerd-message .message-time {
+            align-self: flex-start;
+        }
+
+        /* Code Formatting */
+        .message-content code {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .message-content pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 0;
+        }
+
+        .message-content pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px 16px 16px 4px;
+            align-self: flex-start;
+            max-width: 80%;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .typing-indicator span {
+            width: 4px;
+            height: 4px;
+            background-color: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.6; }
+            50% { transform: translateY(-4px); opacity: 1; }
+        }
+
+        /* Input Area */
+        .chat-input-area {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 12px 50px 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: none;
+            max-height: 120px;
+            transition: all 0.2s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Send Button */
+        .chat-send-btn {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+            background: #2563eb;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chat-send-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .chat-send-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-send-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Error Message */
+        .chat-message.error p {
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        /* Nerd Card Styles */
+        .nerd-card {
+            position: relative;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            min-height: 200px;
+        }
+
+        .nerd-image {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .nerd-image {
+                width: 60px;
+                height: 60px;
+                top: 15px;
+                right: 15px;
+            }
+        }
+
+        /* Header styles moved to main.css */
+        
+        /* Nerd Card Styles */
+        .nerd-card {
+            position: relative;
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            min-height: 200px;
+        }
+
+        .nerd-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            padding-right: 90px; /* Make space for the image */
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .favorite-btn:hover {
+            color: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.active {
+            color: #dc2626;
+        }
+    </style>
+
+    <!-- Chat Panel -->
     <div class="chat-panel hidden" id="chatPanel">
         <div class="chat-header">
             <h3 class="chat-title">Chat with <span class="chat-nerd-name">Andrew DeBad</span></h3>
             <button class="chat-close">&times;</button>
         </div>
-        <div class="chat-messages">
-            <div class="chat-message nerd-message">
-                <p>Hi there! I'm Andrew, how can I help you with business development today?</p>
-            </div>
-            <!-- More messages will appear here when chatting -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here -->
         </div>
         <div class="chat-input-area">
-            <textarea class="chat-input" placeholder="Type your message..."></textarea>
-            <button class="chat-send-btn">
+            <textarea class="chat-input" placeholder="Type your message..." id="chatInput"></textarea>
+            <button class="chat-send-btn" id="sendMessage" disabled>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -270,6 +583,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         // Preload images
         const imagesToPreload = [
@@ -307,7 +621,19 @@
                                      ready to tackle all of your business needs. Your own private, secure LLM trained with your company's 
                                      data, helping your teams learn and move at lightspeed.`
                     },
-                    avatar: 'photos/andrew.png'
+                    avatar: 'photos/andrew.png',
+                    reviews: [
+                        {
+                            author: 'Sarah T.',
+                            stars: 5,
+                            text: 'Andrew provided invaluable insights for our business strategy. His experience is evident in every conversation.'
+                        },
+                        {
+                            author: 'Michael L.',
+                            stars: 5,
+                            text: 'A true business development expert. Andrew helped us navigate complex partnership negotiations with ease.'
+                        }
+                    ]
                 },
                 'Lisa Menu': {
                     categories: ['Marketing', 'Academic'],
@@ -329,7 +655,19 @@
                                      and introducing new products and services to consumers. Her success can be attributed to knowing the 
                                      customer, understanding the business, and looking for opportunities to develop competitive advantages.`
                     },
-                    avatar: 'photos/lisa.png'
+                    avatar: 'photos/lisa.png',
+                    reviews: [
+                        {
+                            author: 'David R.',
+                            stars: 5,
+                            text: 'Lisa\'s marketing expertise transformed our approach to customer engagement. Her academic insights combined with practical experience are invaluable.'
+                        },
+                        {
+                            author: 'Jennifer K.',
+                            stars: 5,
+                            text: 'Outstanding mentor in marketing strategy. Lisa helped us develop a comprehensive digital marketing plan that exceeded our expectations.'
+                        }
+                    ]
                 },
                 'Karl Fruit': {
                     categories: ['Entrepreneurship', 'Mentoring'],
@@ -350,7 +688,19 @@
                         description: `"There are only two types of people in the world: People afraid to try, and people not afraid to be wrong."
                                      Karl's wisdom and approach to entrepreneurship has shaped the educational experience of many students.`
                     },
-                    avatar: 'photos/karl.png'
+                    avatar: 'photos/karl.png',
+                    reviews: [
+                        {
+                            author: 'Alex M.',
+                            stars: 5,
+                            text: 'Karl\'s mentorship was instrumental in launching our startup. His entrepreneurial insights and practical guidance are gold.'
+                        },
+                        {
+                            author: 'Rachel S.',
+                            stars: 5,
+                            text: 'Exceptional advisor for young entrepreneurs. Karl\'s approach to problem-solving and business development is both innovative and practical.'
+                        }
+                    ]
                 },
                 'Chadi Brush': {
                     categories: ['Education', 'Business'],
@@ -370,7 +720,19 @@
                                      and non-degree learning opportunities for adult learners looking to enhance their skills or 
                                      transition to new career paths.`
                     },
-                    avatar: 'photos/chadi.png'
+                    avatar: 'photos/chadi.png',
+                    reviews: [
+                        {
+                            author: 'Patricia N.',
+                            stars: 5,
+                            text: 'Chadi\'s expertise in educational program development is outstanding. He helped us create a cutting-edge professional development curriculum.'
+                        },
+                        {
+                            author: 'Robert W.',
+                            stars: 5,
+                            text: 'Brilliant educator and administrator. Chadi\'s insights into continuing education and professional development are transformative.'
+                        }
+                    ]
                 }
             };
 
@@ -532,52 +894,204 @@
                 aboutModal.classList.add('hidden');
             });
             
-            // Chat button functionality
-            const chatButtons = document.querySelectorAll('.btn-chat, .btn-chat-modal');
+            // Chat functionality
             const chatPanel = document.getElementById('chatPanel');
-            const chatClose = document.querySelector('.chat-close');
-            
-            chatButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Get the nerd name - either from card or modal
-                    let nerdName;
-                    if (this.classList.contains('btn-chat')) {
-                        // From card
-                        const card = this.closest('.nerd-card');
-                        nerdName = card.querySelector('.nerd-name').textContent;
-                    } else {
-                        // From modal
-                        nerdName = document.getElementById('modal-name').textContent;
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendMessage');
+            const chatButtons = document.querySelectorAll('.btn-chat, .btn-chat-modal');
+            let currentNerdName = '';
+            let currentNerdExpertise = '';
+
+            // Enable/disable send button based on input
+            chatInput.addEventListener('input', function() {
+                sendButton.disabled = !this.value.trim();
+            });
+
+            // Handle Enter key
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendButton.disabled) {
+                        sendMessage();
                     }
-                    
-                    // Update chat panel with nerd's name
-                    document.querySelector('.chat-nerd-name').textContent = nerdName;
-                    
-                    // Update greeting message based on nerd's expertise
-                    const nerdData = nerdProfiles[nerdName];
-                    const firstCategory = nerdData ? nerdData.categories[0].toLowerCase() : 'business';
-                    
-                    document.querySelector('.nerd-message p').textContent = 
-                        `Hi there! I'm ${nerdName}, how can I help you with ${firstCategory} today?`;
-                    
-                    // Show chat panel
-                    chatPanel.classList.remove('hidden');
-                    
-                    // Hide modal if it's open
-                    aboutModal.classList.add('hidden');
-                });
-            });
-            
-            chatClose.addEventListener('click', function() {
-                chatPanel.classList.add('hidden');
-            });
-            
-            // Click outside to close modal
-            window.addEventListener('click', function(e) {
-                if (e.target === aboutModal) {
-                    aboutModal.classList.add('hidden');
                 }
             });
+
+            // Click handler for send button
+            sendButton.addEventListener('click', sendMessage);
+
+            // Chat button click handler
+            chatButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.nerd-card');
+                    const modal = document.getElementById('aboutModal');
+                    
+                    // Get nerd info either from card or modal
+                    if (card) {
+                        currentNerdName = card.querySelector('.nerd-name').textContent;
+                        currentNerdExpertise = card.querySelector('.category-tag').textContent;
+                    } else if (modal && !modal.classList.contains('hidden')) {
+                        currentNerdName = document.getElementById('modal-name').textContent;
+                        currentNerdExpertise = document.querySelector('#modal-categories .category-tag').textContent;
+                    }
+
+                    // Update chat panel
+                    document.querySelector('.chat-nerd-name').textContent = currentNerdName;
+                    chatPanel.classList.remove('hidden');
+                    
+                    // Only clear and add welcome message if there are no messages
+                    if (!chatMessages.children.length) {
+                        // Add welcome message
+                        addMessage({
+                            role: 'assistant',
+                            content: `I'm ${currentNerdName}, ready to help with ${currentNerdExpertise}.`
+                        });
+                    }
+
+                    // Focus input
+                    chatInput.focus();
+
+                    // Close the modal if it's open
+                    if (modal && !modal.classList.contains('hidden')) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Close chat panel
+            document.querySelector('.chat-close').addEventListener('click', function() {
+                chatPanel.classList.add('hidden');
+            });
+
+            function addMessage(message) {
+                // Only proceed if we have actual content
+                if (!message || (!message.content && !message.error)) {
+                    return;
+                }
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${message.role === 'user' ? 'user-message' : 'nerd-message'}`;
+                
+                const content = message.error || message.content;
+                
+                // Skip if content is empty after trimming
+                if (!content || !content.trim()) {
+                    return;
+                }
+
+                // For assistant messages, use marked only if content contains markdown
+                let formattedContent = content;
+                if (message.role === 'assistant' && !message.error) {
+                    try {
+                        formattedContent = marked.parse(content);
+                    } catch (e) {
+                        formattedContent = content;
+                    }
+                }
+
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'message-content';
+                contentWrapper.innerHTML = formattedContent;
+
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'message-time';
+                timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                messageDiv.appendChild(contentWrapper);
+                messageDiv.appendChild(timeSpan);
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function addTypingIndicator() {
+                const indicator = document.createElement('div');
+                indicator.className = 'typing-indicator';
+                indicator.innerHTML = '<span></span><span></span><span></span>';
+                chatMessages.appendChild(indicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                return indicator;
+            }
+
+            async function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                // Clear input and disable send button
+                chatInput.value = '';
+                sendButton.disabled = true;
+
+                // Add user message
+                addMessage({
+                    role: 'user',
+                    content: message
+                });
+
+                // Add typing indicator
+                const typingIndicator = addTypingIndicator();
+
+                try {
+                    const response = await fetch('http://localhost:3000/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message,
+                            nerdName: currentNerdName,
+                            nerdExpertise: currentNerdExpertise
+                        })
+                    });
+
+                    // Remove typing indicator before processing response
+                    typingIndicator.remove();
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+
+                    if (data.status === 'success' && data.response) {
+                        addMessage({
+                            role: 'assistant',
+                            content: data.response
+                        });
+                    } else {
+                        throw new Error(data.error || 'Unknown error occurred');
+                    }
+                } catch (error) {
+                    console.error('Chat error:', error);
+                    
+                    addMessage({
+                        role: 'assistant',
+                        error: 'I apologize, but I encountered an error. Please make sure the server is running and try again.'
+                    });
+                }
+
+                // Focus back on input
+                chatInput.focus();
+            }
+
+            // Update the chat input to auto-resize
+            chatInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            });
+
+            // Handle mobile viewport adjustments
+            function adjustViewportForMobile() {
+                const viewport = document.querySelector('meta[name=viewport]');
+                if (window.innerWidth <= 768) {
+                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                    document.body.style.height = window.innerHeight + 'px';
+                }
+            }
+
+            window.addEventListener('resize', adjustViewportForMobile);
+            adjustViewportForMobile();
         });
     </script>
 </body>

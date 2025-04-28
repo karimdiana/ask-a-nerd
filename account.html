@@ -7,17 +7,20 @@
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
+    <!-- Top Navigation Bar -->
     <header class="app-header">
         <div class="header-left">
-            <a href="dashboard.html" class="back-btn">
+            <a href="account.html" class="user-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 21C20 16.5817 16.4183 13 12 13C7.58172 13 4 16.5817 4 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </a>
         </div>
         <div class="header-center">
-            <h1 class="header-title">My Account</h1>
+            <a href="dashboard.html" class="header-logo-link">
+                <img src="photos/nerd.png" alt="Nerd" class="header-logo">
+            </a>
         </div>
         <div class="header-right">
             <a href="index.html" class="signout-btn">Sign Out</a>
@@ -27,35 +30,217 @@
     <main class="main-content">
         <div class="container">
             <div class="account-card">
-                <div class="account-section">
-                    <h2 class="section-title">Profile Information</h2>
-                    
-                    <div class="form-group">
-                        <label for="account-name">Name</label>
-                        <input type="text" id="account-name" value="Test">
+                <!-- Profile Header -->
+                <div class="account-header">
+                    <img src="photos/1.avif" alt="Profile Picture" class="account-avatar">
+                    <h1 class="account-name">Diana K</h1>
+                    <p class="account-email">testing@example.com</p>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="account-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Chats Started</div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="account-email">Email</label>
-                        <input type="email" id="account-email" value="test@example.com" disabled>
+                    <div class="stat-item">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Favorite Nerds</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Categories</div>
                     </div>
                 </div>
-                
-                <div class="account-section">
-                    <h2 class="section-title">My Interests</h2>
-                    <div class="account-categories">
-                        <span class="category-tag">Technology</span>
-                        <span class="category-tag">Science</span>
-                        <span class="category-tag">Business</span>
+
+                <div class="account-content">
+                    <!-- Interests Section -->
+                    <div class="account-section">
+                        <div class="account-section-header">
+                            <h2 class="account-section-title">My Interests</h2>
+                            <a href="#" class="account-section-action">Edit</a>
+                        </div>
+                        <div class="account-categories">
+                            <span class="category-tag">Business</span>
+                            <span class="category-tag">Marketing</span>
+                            <span class="category-tag">Entrepreneurship</span>
+                        </div>
                     </div>
-                    <button class="btn btn-secondary">Edit Preferences</button>
-                </div>
-                
-                <div class="account-actions">
-                    <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">Return to Home</button>
+
+                    <!-- Favorite Nerds Section -->
+                    <div class="account-section">
+                        <div class="account-section-header">
+                            <h2 class="account-section-title">Favorite Nerds</h2>
+                            <a href="#" class="account-section-action">View All</a>
+                        </div>
+                        <div class="nerds-grid">
+                            <!-- Simplified Nerd Cards for Favorites -->
+                            <div class="nerd-card">
+                                <div class="nerd-card-header">
+                                    <div class="nerd-info-primary">
+                                        <h3 class="nerd-name">Andrew DeBad</h3>
+                                    </div>
+                                    <button class="favorite-btn active">
+                                        <svg width="20" height="18" viewBox="0 0 20 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="nerd-categories">
+                                    <span class="category-tag">Business</span>
+                                    <span class="category-tag">Executive</span>
+                                </div>
+                                <div class="nerd-image" style="background-image: url('photos/andrew.png')"></div>
+                                
+                                <!-- Reviews Section -->
+                                <div class="nerd-reviews">
+                                    <div class="reviews-header">
+                                        <h4 class="reviews-title">Reviews</h4>
+                                        <span class="review-count">12 reviews</span>
+                                    </div>
+                                    <div class="review-list">
+                                        <div class="review-card">
+                                            <div class="review-header">
+                                                <div class="reviewer-info">
+                                                    <img src="photos/2.jpg" alt="Sarah M." class="reviewer-avatar">
+                                                    <div class="reviewer-details">
+                                                        <span class="reviewer-name">Sarah M.</span>
+                                                        <span class="review-date">2 weeks ago</span>
+                                                    </div>
+                                                </div>
+                                                <div class="review-rating">
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                </div>
+                                            </div>
+                                            <p class="review-content">Andrew provided excellent insights for our business strategy. His experience in the industry really shows in his practical advice.</p>
+                                            <div class="review-tags">
+                                                <span class="review-tag">Strategic Planning</span>
+                                                <span class="review-tag">Leadership</span>
+                                            </div>
+                                            <div class="review-footer">
+                                                <div class="review-helpful">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M3 7L8 12L13 7" stroke="currentColor" stroke-width="2"/>
+                                                    </svg>
+                                                    <span class="helpful-count">24</span> found this helpful
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="review-card">
+                                            <div class="review-header">
+                                                <div class="reviewer-info">
+                                                    <img src="photos/3.jpg" alt="Michael P." class="reviewer-avatar">
+                                                    <div class="reviewer-details">
+                                                        <span class="reviewer-name">Michael P.</span>
+                                                        <span class="review-date">1 month ago</span>
+                                                    </div>
+                                                </div>
+                                                <div class="review-rating">
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">★</span>
+                                                    <span class="star-icon">☆</span>
+                                                </div>
+                                            </div>
+                                            <p class="review-content">Great executive perspective on scaling businesses. Would have loved more specific examples, but overall very valuable session.</p>
+                                            <div class="review-tags">
+                                                <span class="review-tag">Scaling</span>
+                                                <span class="review-tag">Business Growth</span>
+                                            </div>
+                                            <div class="review-footer">
+                                                <div class="review-helpful">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M3 7L8 12L13 7" stroke="currentColor" stroke-width="2"/>
+                                                    </svg>
+                                                    <span class="helpful-count">18</span> found this helpful
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="see-all-reviews">See all 12 reviews</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Section -->
+                    <div class="account-section">
+                        <div class="account-section-header">
+                            <h2 class="account-section-title">Recent Activity</h2>
+                            <a href="#" class="account-section-action">View All</a>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">💬</div>
+                                <div class="activity-content">
+                                    <p class="activity-text">Chat with <strong>Lisa Menu</strong> about marketing strategies</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">⭐</div>
+                                <div class="activity-content">
+                                    <p class="activity-text">Added <strong>Karl Fruit</strong> to favorites</p>
+                                    <span class="activity-time">Yesterday</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings Section -->
+                    <div class="account-section">
+                        <div class="account-section-header">
+                            <h2 class="account-section-title">Account Settings</h2>
+                        </div>
+                        <div class="settings-list">
+                            <a href="#" class="settings-item">
+                                <div class="settings-icon">🔒</div>
+                                <div class="settings-content">
+                                    <h3 class="settings-title">Privacy Settings</h3>
+                                    <p class="settings-description">Manage your privacy preferences</p>
+                                </div>
+                                <div class="settings-arrow">→</div>
+                            </a>
+                            <a href="#" class="settings-item">
+                                <div class="settings-icon">🔔</div>
+                                <div class="settings-content">
+                                    <h3 class="settings-title">Notifications</h3>
+                                    <p class="settings-description">Configure your notification settings</p>
+                                </div>
+                                <div class="settings-arrow">→</div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for edit buttons
+            document.querySelectorAll('.account-section-action').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Add your edit functionality here
+                });
+            });
+
+            // Add hover effects for interactive elements
+            document.querySelectorAll('.settings-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
