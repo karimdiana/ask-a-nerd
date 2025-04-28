@@ -924,7 +924,7 @@
             // Chat button click handler
             chatButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const card = this.closest('.nerd-card');
+                        const card = this.closest('.nerd-card');
                     const modal = document.getElementById('aboutModal');
                     
                     // Get nerd info either from card or modal
@@ -958,12 +958,12 @@
                     }
                 });
             });
-
+            
             // Close chat panel
             document.querySelector('.chat-close').addEventListener('click', function() {
                 chatPanel.classList.add('hidden');
             });
-
+            
             function addMessage(message) {
                 // Only proceed if we have actual content
                 if (!message || (!message.content && !message.error)) {
