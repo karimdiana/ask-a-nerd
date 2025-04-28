@@ -1092,6 +1092,82 @@
 
             window.addEventListener('resize', adjustViewportForMobile);
             adjustViewportForMobile();
+
+            // Mobile-specific chat handling
+            function initMobileChat() {
+                const chatPanel = document.querySelector('.chat-panel');
+                const chatInput = document.querySelector('.chat-input');
+                const chatMessages = document.querySelector('.chat-messages');
+                
+                // Handle chat open/close
+                function openChat() {
+                    document.body.classList.add('chat-open');
+                    chatPanel.classList.remove('hidden');
+                    // Scroll to bottom of messages
+                    setTimeout(() => {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 100);
+                }
+
+                function closeChat() {
+                    document.body.classList.remove('chat-open');
+                    chatPanel.classList.add('hidden');
+                }
+
+                // Handle chat buttons
+                document.querySelectorAll('.btn-chat').forEach(btn => {
+                    btn.addEventListener('click', openChat);
+                });
+
+                document.querySelector('.chat-close').addEventListener('click', closeChat);
+
+                // Handle keyboard
+                chatInput.addEventListener('focus', () => {
+                    // Small delay to let keyboard appear
+                    setTimeout(() => {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 300);
+                });
+
+                // Prevent body scroll when touching chat messages
+                chatMessages.addEventListener('touchmove', (e) => {
+                    if (chatMessages.scrollHeight > chatMessages.clientHeight) {
+                        e.stopPropagation();
+                    }
+                }, { passive: true });
+
+                // Auto-resize input
+                chatInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    const newHeight = Math.min(this.scrollHeight, 100);
+                    this.style.height = newHeight + 'px';
+                    chatMessages.style.paddingBottom = (newHeight + 80) + 'px';
+                });
+
+                // Handle send on mobile
+                document.querySelector('.chat-send-btn').addEventListener('click', () => {
+                    if (chatInput.value.trim()) {
+                        // Your existing send message logic here
+                        sendMessage();
+                        // Reset input height
+                        chatInput.style.height = 'auto';
+                        chatMessages.style.paddingBottom = '80px';
+                    }
+                });
+
+                // Handle viewport height changes (mobile keyboard)
+                let viewportHeight = window.innerHeight;
+                window.addEventListener('resize', () => {
+                    if (window.innerHeight < viewportHeight) {
+                        // Keyboard is likely visible
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                    viewportHeight = window.innerHeight;
+                });
+            }
+
+            // Initialize mobile chat features
+            initMobileChat();
         });
     </script>
 </body>
