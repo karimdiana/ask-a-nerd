@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Dashboard - Nerd</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/dashboard.css">
@@ -104,7 +106,7 @@
                 <div class="nerd-card" data-categories="marketing,business,academic">
                     <div class="nerd-card-header">
                         <div class="nerd-info-primary">
-                            <h3 class="nerd-name">Lisa Meneau</h3>
+                            <h3 class="nerd-name">Lisa Menu</h3>
                             <span class="online-status"></span>
                         </div>
                         <button class="favorite-btn">
@@ -129,7 +131,7 @@
                 <div class="nerd-card" data-categories="business,entrepreneur,mentor">
                     <div class="nerd-card-header">
                         <div class="nerd-info-primary">
-                            <h3 class="nerd-name">Karl Fruecht</h3>
+                            <h3 class="nerd-name">Karl Fruit</h3>
                             <span class="online-status offline"></span>
                         </div>
                         <button class="favorite-btn">
@@ -154,7 +156,7 @@
                 <div class="nerd-card" data-categories="education,academic">
                     <div class="nerd-card-header">
                         <div class="nerd-info-primary">
-                            <h3 class="nerd-name">Chadi Braish</h3>
+                            <h3 class="nerd-name">Chadi Brush</h3>
                             <span class="online-status"></span>
                         </div>
                         <button class="favorite-btn active">
@@ -190,7 +192,7 @@
                     <div class="about-nerd-header">
                         <div class="about-nerd-avatar" id="modal-avatar" style="background-image: url('photos/andrew.png');"></div>
                         <div>
-                            <h3 class="about-nerd-name" id="modal-name">Andrew DeGood</h3>
+                            <h3 class="about-nerd-name" id="modal-name">Andrew DeBad</h3>
                             <div class="about-nerd-categories" id="modal-categories">
                                 <span class="category-tag">Business</span>
                                 <span class="category-tag">Executive</span>
@@ -269,6 +271,19 @@
     </div>
 
     <script>
+        // Preload images
+        const imagesToPreload = [
+            'photos/andrew.png',
+            'photos/lisa.png',
+            'photos/karl.png',
+            'photos/chadi.png'
+        ];
+        
+        imagesToPreload.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Data for each nerd
             const nerdProfiles = {

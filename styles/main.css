@@ -47,6 +47,20 @@ body {
     display: none !important;
 }
 
+/* Logo Styling */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.app-logo {
+    width: 80px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Typography */
 h1, h2, h3, h4 {
     margin-bottom: 0.5rem;
@@ -421,18 +435,48 @@ input:disabled {
     margin-top: 2rem;
 }
 
+/* Responsive Base Styles */
+html {
+    /* Prevent font size inflation */
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+}
+
+/* Ensure we have a consistent base font size */
+html, body {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    width: 100%;
+}
+
+/* For Safari mobile */
+@supports (-webkit-touch-callout: none) {
+    body {
+        /* Prevent scroll bounce in mobile Safari */
+        height: -webkit-fill-available;
+    }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
-    }
-    
-    .auth-card, .categories-card, .account-card {
-        padding: 1.5rem;
+        max-width: 100%;
     }
     
     .app-header {
         padding: 0.75rem 1rem;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .auth-card, .categories-card, .account-card {
+        padding: 1.5rem;
     }
     
     .categories-grid {
@@ -443,7 +487,7 @@ input:disabled {
         grid-template-columns: 1fr;
     }
     
-    .btn {
-        width: 100%;
+    .app-logo {
+        width: 60px;
     }
-} 
+}
