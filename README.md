@@ -66,3 +66,12 @@ If the chat doesn't work:
 - Frontend is built with vanilla JavaScript
 - ChatGPT API is used for generating responses
 - Markdown formatting is supported in chat messages
+
+.nerd-image {
+    width: 100%;
+    padding-bottom: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
