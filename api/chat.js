@@ -1,16 +1,7 @@
-const OpenAI = require('openai');
+// Import OpenAI library
+const { OpenAI } = require('openai');
 
-// Fix environment variable name (OPENAI instead of OPENAI_API_KEY)
-const apiKey = process.env.OPENAI || '';
-
-// For debugging
-console.log('API key exists:', !!apiKey);
-
-// Configure OpenAI
-const openai = new OpenAI({
-    apiKey: apiKey
-});
-
+// Handler for API requests
 module.exports = async (req, res) => {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Credentials', true);
@@ -18,15 +9,13 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-    // Handle OPTIONS request
+    // Handle preflight requests
     if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+        res.status(200).end();
+        return;
     }
 
-    console.log('Request method:', req.method);
-    console.log('Request body:', req.body);
-
-    // Only allow POST for actual requests
+    // Only accept POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({
             status: 'error',
@@ -35,30 +24,36 @@ module.exports = async (req, res) => {
     }
 
     try {
-        // Check API key
+        // Get API key from environment variables
+        const apiKey = process.env.OPENAI;
+        
+        // Check if API key exists
         if (!apiKey) {
-            console.error('API key is missing');
             return res.status(500).json({
                 status: 'error',
-                error: 'OpenAI API key is not configured'
+                error: 'OpenAI API key is missing'
             });
         }
 
+        // Initialize OpenAI client
+        const openai = new OpenAI({ apiKey });
+        
+        // Extract request data
         const { message, nerdName, nerdExpertise } = req.body || {};
-
+        
+        // Validate message
         if (!message) {
-            console.error('Message is missing');
             return res.status(400).json({
                 status: 'error',
                 error: 'Message is required'
             });
         }
-
-        // Set sensible defaults if nerdName or nerdExpertise are missing
+        
+        // Create default values if needed
         const expertName = nerdName || 'an AI assistant';
         const expertise = nerdExpertise || 'various topics';
-
-        console.log('Sending request to OpenAI API');
+        
+        // Generate response using OpenAI
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
@@ -74,16 +69,21 @@ module.exports = async (req, res) => {
             temperature: 0.7,
             max_tokens: 500
         });
-
-        console.log('Received response from OpenAI API');
-        const response = completion.choices[0].message.content;
-
+        
+        // Extract response text
+        const responseText = completion.choices[0].message.content;
+        
+        // Return successful response
         return res.status(200).json({
             status: 'success',
-            response
+            response: responseText
         });
+        
     } catch (error) {
-        console.error('OpenAI API error:', error);
+        // Log error details
+        console.error('API Error:', error.message);
+        
+        // Return error response
         return res.status(500).json({
             status: 'error',
             error: error.message || 'Failed to get response from AI'

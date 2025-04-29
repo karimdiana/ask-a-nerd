@@ -926,65 +926,65 @@
                 const typingIndicator = addTypingIndicator();
 
                 try {
-                    console.log('Current nerd:', currentNerdName, currentNerdExpertise);
-                    console.log('Sending message:', message);
-                    
-                    // Make sure we're using the correct API URL
-                    // This directly uses the API endpoint without any window.location manipulation
-                    const apiUrl = '/api/chat';
-                    const payload = {
+                    // Prepare message data
+                    const messageData = {
                         message: message,
                         nerdName: currentNerdName || '',
                         nerdExpertise: currentNerdExpertise || ''
                     };
-                    console.log('Sending to:', apiUrl);
-                    console.log('Payload:', payload);
+
+                    // Log helpful debugging info
+                    console.log('Current URL:', window.location.href);
+                    console.log('Sending message to:', currentNerdName);
+                    console.log('Message data:', messageData);
                     
+                    // Reliable API URL construction
+                    // This works in both development and production (Vercel)
+                    const isProduction = !window.location.hostname.includes('localhost');
+                    const apiUrl = isProduction 
+                        ? 'https://' + window.location.host + '/api/chat'
+                        : '/api/chat';
+                        
+                    console.log('Using API URL:', apiUrl);
+                    
+                    // Make the API request
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify(messageData)
                     });
 
                     // Remove typing indicator
                     typingIndicator.remove();
 
+                    // Log response details for debugging
                     console.log('Response status:', response.status);
-                    console.log('Response headers:', [...response.headers.entries()]);
+                    console.log('Response type:', response.headers.get('content-type'));
                     
-                    // Handle 404 error specifically
-                    if (response.status === 404) {
-                        throw new Error(`API endpoint not found. Please check the Vercel configuration. 
-                        Make sure the API function is properly deployed and the environment variables are set.`);
+                    // Get response as text first (safer)
+                    const responseText = await response.text();
+                    console.log('Response text:', responseText);
+                    
+                    // Empty response check
+                    if (!responseText || responseText.trim() === '') {
+                        throw new Error('Received empty response from server');
                     }
                     
-                    // Handle other HTTP errors
-                    if (!response.ok) {
-                        throw new Error(`Server error: ${response.status} - ${response.statusText}`);
-                    }
-
-                    // Get the raw response text first for debugging
-                    const rawText = await response.text();
-                    console.log('Raw response:', rawText);
-                    
-                    if (!rawText.trim()) {
-                        throw new Error('Empty response from server');
-                    }
-                    
-                    // Parse the response as JSON
+                    // Try to parse as JSON
                     let responseData;
                     try {
-                        responseData = JSON.parse(rawText);
-                        console.log('Parsed response:', responseData);
+                        responseData = JSON.parse(responseText);
                     } catch (e) {
-                        console.error('Failed to parse response as JSON:', e);
-                        throw new Error('Unable to parse server response as JSON. Check that the API is returning valid JSON.');
+                        console.error('Failed to parse response:', e);
+                        throw new Error('Server returned invalid JSON response. Check Vercel function logs.');
                     }
-
-                    // Check if response data is valid
+                    
+                    // Success case
                     if (responseData && responseData.status === 'success' && responseData.response) {
+                        // Add assistant response to chat
                         const assistantMessage = {
                             role: 'assistant',
                             content: responseData.response,
@@ -992,23 +992,35 @@
                         };
                         addMessage(assistantMessage);
                     } else {
-                        console.error('Invalid response data:', responseData);
-                        throw new Error(responseData.error || 'Invalid response format from server');
+                        // Server returned JSON but in error format
+                        const errorMessage = responseData.error || 'Unknown server error';
+                        throw new Error(errorMessage);
                     }
                 } catch (error) {
+                    // Comprehensive error handling
                     console.error('Chat error:', error);
                     
-                    // Show a detailed error message to help debugging
-                    const errorMessage = error.message || 'Failed to get a response';
-                    const errorWithDetails = `Error: ${errorMessage}\n\nPlease check:\n1. API endpoint is deployed\n2. OpenAI API key is set\n3. Vercel logs for more details`;
+                    // Detailed troubleshooting message
+                    let troubleshootingMessage = '';
                     
+                    if (error.message.includes('404')) {
+                        troubleshootingMessage = `API endpoint not found (404 error).\n\nPlease check:\n1. Vercel deployment completed successfully\n2. api/chat.js file exists\n3. API routes are configured in vercel.json`;
+                    } else if (error.message.includes('empty response')) {
+                        troubleshootingMessage = `Server returned an empty response.\n\nPlease check:\n1. OpenAI API key is valid\n2. Vercel function logs for errors\n3. Function timeout (if response takes too long)`;
+                    } else if (error.message.includes('JSON')) {
+                        troubleshootingMessage = `Invalid response format.\n\nPlease check:\n1. API response format in Vercel logs\n2. Serverless function code\n3. Memory limits on the function`;
+                    } else {
+                        troubleshootingMessage = `Error: ${error.message}\n\nTroubleshooting:\n1. Check Vercel environment variables\n2. Verify OpenAI API key\n3. Review function logs in Vercel dashboard`;
+                    }
+                    
+                    // Add error message to chat
                     addMessage({
                         role: 'error',
-                        content: errorWithDetails,
+                        content: troubleshootingMessage,
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
                 } finally {
-                    // Always re-enable the input
+                    // Always re-enable input
                     sendButton.disabled = false;
                     chatInput.focus();
                 }
