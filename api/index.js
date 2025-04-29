@@ -1,16 +1,19 @@
 // Simple API index router for Vercel
 const chatHandler = require('./chat');
+const testHandler = require('./test');
+const config = require('./_config');
 
 module.exports = async (req, res) => {
-    // Handle CORS preflight
-    if (req.method === 'OPTIONS') {
-        res.setHeader('Access-Control-Allow-Credentials', true);
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-        res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-        res.status(200).end();
+    // Set CORS headers
+    config.setCorsHeaders(res);
+
+    // Handle preflight
+    if (config.handleOptions(req, res)) {
         return;
     }
+
+    // Log request for debugging
+    console.log('API Request:', req.url, req.method);
 
     // Extract the path from the URL
     const path = req.url.split('?')[0];
@@ -18,11 +21,14 @@ module.exports = async (req, res) => {
     // Route to the appropriate handler
     if (path === '/api/chat') {
         return chatHandler(req, res);
+    } else if (path === '/api/test') {
+        return testHandler(req, res);
     }
     
     // Handle 404 for unknown routes
     return res.status(404).json({
         status: 'error',
-        error: 'API route not found'
+        error: 'API route not found',
+        requestedPath: path
     });
 }; 

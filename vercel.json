@@ -6,24 +6,11 @@
       "maxDuration": 10
     }
   },
-  "builds": [
-    { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "*.html", "use": "@vercel/static" },
-    { "src": "styles/**/*", "use": "@vercel/static" },
-    { "src": "photos/**/*", "use": "@vercel/static" },
-    { "src": "*.js", "use": "@vercel/static" },
-    { "src": "*.css", "use": "@vercel/static" },
-    { "src": "*.json", "use": "@vercel/static" },
-    { "src": "*.PNG", "use": "@vercel/static" }
-  ],
   "routes": [
-    { "src": "/api/chat", "dest": "api/chat.js" },
-    { "src": "/api/(.*)", "dest": "api/index.js" },
+    { "src": "/api/chat", "dest": "/api/chat" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "$1" },
-    { "src": "/", "dest": "/dashboard.html" }
-  ],
-  "env": {
-    "OPENAI": "@openai"
-  }
+    { "src": "/", "dest": "/dashboard.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
 } 
