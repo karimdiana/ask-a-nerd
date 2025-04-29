@@ -1,59 +1,82 @@
 const OpenAI = require('openai');
 
+// Environment variables
+const apiKey = process.env.OPENAI_API_KEY;
+
+// Configure OpenAI
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+    apiKey: apiKey
 });
 
-export default async function handler(req, res) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+module.exports = async (req, res) => {
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+    // Handle OPTIONS request
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
 
-  try {
+    // Only allow POST for actual requests
     if (req.method !== 'POST') {
-      throw new Error('Only POST requests are allowed');
+        return res.status(405).json({
+            status: 'error',
+            error: 'Method not allowed'
+        });
     }
 
-    const { message, nerdName, nerdExpertise } = req.body;
-
-    if (!message) {
-      throw new Error('Message is required');
-    }
-
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: `You are ${nerdName}, an expert in ${nerdExpertise}. Respond in a helpful and professional manner.`
-        },
-        {
-          role: "user",
-          content: message
+    try {
+        // Check API key
+        if (!apiKey) {
+            return res.status(500).json({
+                status: 'error',
+                error: 'OpenAI API key is not configured'
+            });
         }
-      ],
-      temperature: 0.7,
-      max_tokens: 500
-    });
 
-    res.status(200).json({
-      status: 'success',
-      response: response.choices[0].message.content
-    });
+        const { message, nerdName, nerdExpertise } = req.body;
 
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({
-      status: 'error',
-      error: error.message
-    });
-  }
-} 
+        if (!message) {
+            return res.status(400).json({
+                status: 'error',
+                error: 'Message is required'
+            });
+        }
+
+        // Set sensible defaults if nerdName or nerdExpertise are missing
+        const expertName = nerdName || 'an AI assistant';
+        const expertise = nerdExpertise || 'various topics';
+
+        const completion = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content: `You are ${expertName}, an expert in ${expertise}. Provide clear, professional responses within your area of expertise.`
+                },
+                {
+                    role: "user",
+                    content: message
+                }
+            ],
+            temperature: 0.7,
+            max_tokens: 500
+        });
+
+        const response = completion.choices[0].message.content;
+
+        return res.status(200).json({
+            status: 'success',
+            response
+        });
+    } catch (error) {
+        console.error('OpenAI API error:', error);
+        return res.status(500).json({
+            status: 'error',
+            error: error.message || 'Failed to get response from AI'
+        });
+    }
+}; 

@@ -926,9 +926,13 @@
                 const typingIndicator = addTypingIndicator();
 
                 try {
-                    // Direct API URL without using window.location
-                    // This ensures it works on any domain including Vercel
-                    const response = await fetch('/api/chat', {
+                    console.log('Sending message to nerd:', currentNerdName);
+                    
+                    // Use the correct API endpoint for Vercel
+                    const apiUrl = '/api/chat';
+                    console.log('API URL:', apiUrl);
+                    
+                    const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -943,17 +947,23 @@
                     // Remove typing indicator
                     typingIndicator.remove();
 
+                    console.log('Response status:', response.status);
+                    
                     // Handle response
                     if (!response.ok) {
                         throw new Error(`Server error: ${response.status}`);
                     }
 
-                    // Try to parse response as JSON
+                    // Get the raw response text first for debugging
+                    const rawText = await response.text();
+                    console.log('Raw response:', rawText);
+                    
                     let responseData;
                     try {
-                        responseData = await response.json();
+                        // Parse the raw text as JSON
+                        responseData = JSON.parse(rawText);
                     } catch (e) {
-                        console.error('Failed to parse response as JSON');
+                        console.error('Failed to parse response as JSON:', e);
                         throw new Error('Unable to understand the server response');
                     }
 
@@ -966,6 +976,7 @@
                         };
                         addMessage(assistantMessage);
                     } else {
+                        console.error('Invalid response data:', responseData);
                         throw new Error(responseData.error || 'Invalid response from server');
                     }
                 } catch (error) {
