@@ -248,7 +248,7 @@
                     <div class="chat-input-wrapper">
                         <textarea class="chat-input" placeholder="Type your message..." id="chatInput" spellcheck="false"></textarea>
                         <button class="chat-send-btn" id="sendMessage" disabled>Send Message</button>
-            </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -562,8 +562,12 @@
             background: white;
             box-sizing: border-box;
             display: block;
-            z-index: 10;
+            z-index: 50; /* Increased z-index */
             position: relative;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            touch-action: manipulation;
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         .chat-send-btn {
@@ -581,8 +585,10 @@
             transition: none;
             display: block;
             margin: 10px auto 0; /* Reduced top margin */
-            z-index: 10;
+            z-index: 50; /* Increased z-index */
             position: relative;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            touch-action: manipulation;
         }
 
         .chat-send-btn:disabled {
@@ -1106,6 +1112,36 @@
                 flex-direction: column;
             }
         }
+
+        /* Additional styles for mobile input clickability */
+        #chatInput, #sendMessage {
+            position: relative;
+            z-index: 9999 !important; /* Maximum z-index */
+            pointer-events: auto !important; /* Force pointer events */
+        }
+        
+        .chat-input-wrapper {
+            pointer-events: auto !important;
+            z-index: 9999 !important;
+        }
+        
+        .chat-footer {
+            pointer-events: auto !important;
+            z-index: 9999 !important;
+        }
+        
+        /* Fix for iOS */
+        @supports (-webkit-touch-callout: none) {
+            #chatInput, #sendMessage {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+            
+            .chat-modal {
+                -webkit-transform: translate3d(0,0,0);
+                transform: translate3d(0,0,0);
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
@@ -1123,6 +1159,66 @@
         });
         
         document.addEventListener('DOMContentLoaded', function() {
+            // Immediately fix chat input and send button
+            setTimeout(function() {
+                const chatInput = document.getElementById('chatInput');
+                const sendMessageButton = document.getElementById('sendMessage');
+                
+                if (chatInput) {
+                    // Remove and recreate the textarea to fix event issues
+                    const parent = chatInput.parentNode;
+                    const newInput = document.createElement('textarea');
+                    
+                    // Copy all attributes
+                    Array.from(chatInput.attributes).forEach(attr => {
+                        newInput.setAttribute(attr.name, attr.value);
+                    });
+                    
+                    // Replace the old element
+                    parent.replaceChild(newInput, chatInput);
+                    
+                    // Add direct event listeners
+                    newInput.addEventListener('input', function() {
+                        sendMessageButton.disabled = this.value.trim() === '';
+                    });
+                    
+                    newInput.addEventListener('focus', function() {
+                        console.log('Input focused');
+                    });
+                    
+                    newInput.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        this.focus();
+                    });
+                }
+                
+                if (sendMessageButton) {
+                    // Remove and recreate the button to fix event issues
+                    const parent = sendMessageButton.parentNode;
+                    const newButton = document.createElement('button');
+                    
+                    // Copy all attributes
+                    Array.from(sendMessageButton.attributes).forEach(attr => {
+                        newButton.setAttribute(attr.name, attr.value);
+                    });
+                    
+                    // Set text content
+                    newButton.textContent = 'Send Message';
+                    
+                    // Replace the old element
+                    parent.replaceChild(newButton, sendMessageButton);
+                    
+                    // Add direct event listener
+                    newButton.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        console.log('Send button clicked');
+                        if (!this.disabled) {
+                            sendMessage();
+                        }
+                    });
+                }
+            }, 500);
+
             // Data for each nerd
             const nerdProfiles = {
                 'Andrew DeBad': {
@@ -1722,6 +1818,42 @@
                 }
             `;
             document.head.appendChild(styleElement);
+
+            // Fix for mobile event handling
+            chatInput.addEventListener('touchstart', function(e) {
+                // Prevent the click from being swallowed
+                e.stopPropagation();
+            });
+            
+            chatInput.addEventListener('touchend', function(e) {
+                // Try to focus the input
+                this.focus();
+                e.preventDefault();
+            }, false);
+            
+            sendMessageButton.addEventListener('touchstart', function(e) {
+                e.stopPropagation();
+            });
+            
+            sendMessageButton.addEventListener('touchend', function(e) {
+                // Trigger the send function
+                if (!this.disabled) {
+                    sendMessage();
+                }
+                e.preventDefault();
+            }, false);
+            
+            // Ensure the input is properly cleared and refocused after sending
+            const originalSendMessage = sendMessage;
+            sendMessage = function() {
+                // Call the original function
+                originalSendMessage();
+                
+                // Ensure the input is refocused after sending
+                setTimeout(() => {
+                    chatInput.focus();
+                }, 50);
+            };
         });
     </script>
 </body>
