@@ -763,34 +763,28 @@
             });
             
             function addMessage(message) {
-                // Only proceed if we have actual content
-                if (!message || (!message.content && !message.error)) {
-                    return;
-                }
+                if (!message || (!message.content && !message.error)) return;
 
                 const messageDiv = document.createElement('div');
-                messageDiv.className = `chat-message ${message.role === 'user' ? 'user-message' : 'nerd-message'}`;
+                messageDiv.className = `chat-message ${message.role === 'user' ? 'user-message' : message.role === 'error' ? 'error-message' : 'nerd-message'}`;
+                
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'message-content';
                 
                 const content = message.error || message.content;
                 
-                // Skip if content is empty after trimming
-                if (!content || !content.trim()) {
-                    return;
-                }
+                if (!content || !content.trim()) return;
 
                 // For assistant messages, use marked only if content contains markdown
-                let formattedContent = content;
-                if (message.role === 'assistant' && !message.error) {
+                if (message.role === 'assistant') {
                     try {
-                        formattedContent = marked.parse(content);
+                        contentWrapper.innerHTML = marked.parse(content);
                     } catch (e) {
-                        formattedContent = content;
+                        contentWrapper.textContent = content;
                     }
+                } else {
+                    contentWrapper.textContent = content;
                 }
-
-                const contentWrapper = document.createElement('div');
-                contentWrapper.className = 'message-content';
-                contentWrapper.innerHTML = formattedContent;
 
                 const timeSpan = document.createElement('span');
                 timeSpan.className = 'message-time';
@@ -830,26 +824,40 @@
                 const typingIndicator = addTypingIndicator();
 
                 try {
-                    const response = await fetch('/api/chat', {
+                    // Get base URL from window.location
+                    const baseUrl = window.location.href.includes('localhost') 
+                        ? 'http://localhost:3000' 
+                        : window.location.origin;
+
+                    const response = await fetch(`${baseUrl}/api/chat`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
                         body: JSON.stringify({
-                            message,
+                            message: message,
                             nerdName: currentNerdName,
                             nerdExpertise: currentNerdExpertise
-                        })
+                        }),
+                        credentials: 'same-origin'
                     });
 
                     // Remove typing indicator
                     typingIndicator.remove();
 
-                    if (!response.ok) {
-                        throw new Error('Unable to connect to chat service. Please try again.');
+                    // Try to parse the response even if it's not ok
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch (e) {
+                        console.error('Failed to parse response:', e);
+                        throw new Error('Unable to connect to chat service. Please try refreshing the page.');
                     }
 
-                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Server error. Please try again.');
+                    }
 
                     if (data.status === 'success' && data.response) {
                         addMessage({
@@ -857,7 +865,7 @@
                             content: data.response
                         });
                     } else {
-                        throw new Error(data.error || 'Unable to get a response. Please try again.');
+                        throw new Error('Invalid response from server. Please try again.');
                     }
                 } catch (error) {
                     console.error('Chat error:', error);
@@ -865,13 +873,13 @@
                     // Add error message to chat
                     addMessage({
                         role: 'error',
-                        error: error.message
+                        error: error.message || 'Connection failed. Please check your internet and try again.'
                     });
+                } finally {
+                    // Always re-enable input and focus
+                    sendButton.disabled = false;
+                    chatInput.focus();
                 }
-
-                // Re-enable input and focus
-                sendButton.disabled = false;
-                chatInput.focus();
             }
 
             // Handle mobile chat
