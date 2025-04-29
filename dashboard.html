@@ -244,26 +244,92 @@
 
     <!-- Chat Panel Styling -->
     <style>
-        /* Chat Panel Container */
-        .chat-panel {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 380px;
-            max-width: calc(100vw - 40px);
-            height: 600px;
-            max-height: calc(100vh - 100px);
+        /* Mobile-first card styling */
+        .nerd-card {
+            position: relative;
+            padding: 1rem;
+            border-radius: 12px;
             background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            z-index: 1000;
-            transition: all 0.3s ease;
+            gap: 0.75rem;
+            height: auto;
         }
 
-        /* Mobile styles */
+        .nerd-image {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        /* Mobile-specific styles */
         @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .nerds-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0;
+            }
+
+            .nerd-card {
+                margin-bottom: 1rem;
+                padding: 1rem;
+            }
+
+            .nerd-image {
+                width: 80px;
+                height: 80px;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .nerd-card-header {
+                padding-right: 100px;
+            }
+
+            .nerd-info-primary {
+                margin-right: 0;
+            }
+
+            .category-tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0.5rem 0;
+                margin: 0 -1rem;
+                scroll-padding: 1rem;
+            }
+
+            .category-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .category-tab {
+                flex: 0 0 auto;
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+                white-space: nowrap;
+            }
+
+            .controls-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            /* Chat panel mobile fixes */
             .chat-panel {
                 position: fixed;
                 left: 0;
@@ -276,11 +342,10 @@
                 max-height: 100vh !important;
                 margin: 0;
                 border-radius: 0;
-                transform: none !important;
-                transition: none !important;
-                overscroll-behavior: none;
-                touch-action: none;
-                -webkit-overflow-scrolling: touch;
+                z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                background: #fff;
             }
 
             .chat-header {
@@ -288,29 +353,23 @@
                 top: 0;
                 left: 0;
                 right: 0;
-                z-index: 1001;
-                background: #fff;
-                padding: 1rem;
-                border-bottom: 1px solid #e2e8f0;
                 height: 60px;
+                padding: 1rem;
+                background: #fff;
+                border-bottom: 1px solid #e2e8f0;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                z-index: 1001;
             }
 
             .chat-messages {
+                flex: 1;
                 margin-top: 60px;
                 margin-bottom: 70px;
-                height: calc(100vh - 130px);
                 padding: 1rem;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
-                background: #fff;
-                position: fixed;
-                left: 0;
-                right: 0;
-                top: 60px;
-                bottom: 70px;
             }
 
             .chat-input-area {
@@ -322,28 +381,46 @@
                 background: #fff;
                 border-top: 1px solid #e2e8f0;
                 z-index: 1001;
-                height: 70px;
             }
 
-            /* Prevent any movement */
-            .chat-panel.open {
-                position: fixed;
-                overflow: hidden;
+            .chat-message {
+                max-width: 85%;
+                margin-bottom: 1rem;
+                clear: both;
             }
 
-            /* Fix image cropping */
-            .nerd-image {
-                width: 100%;
-                padding-bottom: 100%;
-                background-size: cover;
-                background-position: center;
-                border-radius: 12px;
-                margin-top: 1rem;
+            .user-message {
+                float: right;
             }
 
-            .nerd-card {
-                height: auto;
-                min-height: 0;
+            .nerd-message {
+                float: left;
+            }
+
+            .message-content {
+                padding: 0.8rem 1rem;
+                border-radius: 1rem;
+                font-size: 0.95rem;
+                line-height: 1.4;
+                word-wrap: break-word;
+            }
+
+            .user-message .message-content {
+                background: #2563eb;
+                color: #fff;
+                border-radius: 1rem 1rem 0 1rem;
+            }
+
+            .nerd-message .message-content {
+                background: #f1f5f9;
+                color: #1e293b;
+                border-radius: 1rem 1rem 1rem 0;
+            }
+
+            .error-message .message-content {
+                background: #fee2e2;
+                color: #dc2626;
+                border-radius: 1rem;
             }
         }
 
@@ -763,27 +840,23 @@
             });
             
             function addMessage(message) {
-                if (!message || (!message.content && !message.error)) return;
+                if (!message?.content) return;
 
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `chat-message ${message.role === 'user' ? 'user-message' : message.role === 'error' ? 'error-message' : 'nerd-message'}`;
                 
                 const contentWrapper = document.createElement('div');
                 contentWrapper.className = 'message-content';
-                
-                const content = message.error || message.content;
-                
-                if (!content || !content.trim()) return;
 
-                // For assistant messages, use marked only if content contains markdown
+                // Handle different message types
                 if (message.role === 'assistant') {
                     try {
-                        contentWrapper.innerHTML = marked.parse(content);
+                        contentWrapper.innerHTML = marked.parse(message.content);
                     } catch (e) {
-                        contentWrapper.textContent = content;
+                        contentWrapper.textContent = message.content;
                     }
                 } else {
-                    contentWrapper.textContent = content;
+                    contentWrapper.textContent = message.content;
                 }
 
                 const timeSpan = document.createElement('span');
@@ -824,112 +897,55 @@
                 const typingIndicator = addTypingIndicator();
 
                 try {
-                    // Get base URL from window.location
-                    const baseUrl = window.location.href.includes('localhost') 
-                        ? 'http://localhost:3000' 
-                        : window.location.origin;
-
-                    const response = await fetch(`${baseUrl}/api/chat`, {
+                    const response = await fetch('/api/chat', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
                             message: message,
                             nerdName: currentNerdName,
                             nerdExpertise: currentNerdExpertise
-                        }),
-                        credentials: 'same-origin'
+                        })
                     });
 
                     // Remove typing indicator
                     typingIndicator.remove();
 
-                    // Try to parse the response even if it's not ok
-                    let data;
-                    try {
-                        data = await response.json();
-                    } catch (e) {
-                        console.error('Failed to parse response:', e);
-                        throw new Error('Unable to connect to chat service. Please try refreshing the page.');
-                    }
+                    const data = await response.json();
 
                     if (!response.ok) {
-                        throw new Error(data.error || 'Server error. Please try again.');
+                        throw new Error(typeof data.error === 'string' ? data.error : 'Unable to connect to chat service');
                     }
 
-                    if (data.status === 'success' && data.response) {
+                    if (data.status === 'success' && typeof data.response === 'string') {
                         addMessage({
                             role: 'assistant',
                             content: data.response
                         });
                     } else {
-                        throw new Error('Invalid response from server. Please try again.');
+                        throw new Error('Invalid response from server');
                     }
                 } catch (error) {
                     console.error('Chat error:', error);
-                    
-                    // Add error message to chat
                     addMessage({
                         role: 'error',
-                        error: error.message || 'Connection failed. Please check your internet and try again.'
+                        content: error.message
                     });
                 } finally {
-                    // Always re-enable input and focus
                     sendButton.disabled = false;
                     chatInput.focus();
                 }
             }
 
-            // Handle mobile chat
-            function initMobileChat() {
-                const chatPanel = document.querySelector('.chat-panel');
-                
-                // When chat opens
-                document.querySelectorAll('.btn-chat').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.body.classList.add('chat-open');
-                        chatPanel.classList.add('open');
-                        // Prevent scrolling on body
-                        document.body.style.overflow = 'hidden';
-                        document.body.style.position = 'fixed';
-                        document.body.style.width = '100%';
-                        document.body.style.height = '100%';
-                    });
-                });
-
-                // When chat closes
-                document.querySelector('.chat-close').addEventListener('click', () => {
-                    document.body.classList.remove('chat-open');
-                    chatPanel.classList.remove('open');
-                    // Restore scrolling
-                    document.body.style.overflow = '';
-                    document.body.style.position = '';
-                    document.body.style.width = '';
-                    document.body.style.height = '';
-                });
-
-                // Handle keyboard
-                const chatInput = document.querySelector('.chat-input');
-                const chatMessages = document.querySelector('.chat-messages');
-
-                chatInput.addEventListener('focus', () => {
-                    setTimeout(() => {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 300);
-                });
-
-                // Prevent touchmove on chat panel
-                chatPanel.addEventListener('touchmove', (e) => {
+            // Prevent any movement of chat panel on mobile
+            document.addEventListener('touchmove', function(e) {
+                if (document.body.classList.contains('chat-open')) {
                     if (!e.target.closest('.chat-messages')) {
                         e.preventDefault();
                     }
-                }, { passive: false });
-            }
-
-            // Initialize mobile chat
-            initMobileChat();
+                }
+            }, { passive: false });
         });
     </script>
 </body>
