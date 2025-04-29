@@ -77,14 +77,14 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/andrew.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Andrew DeBad</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Business</span>
-                                <span class="category-tag">Executive</span>
-                            </div>
+                            <span class="category-tag">Business</span>
+                            <span class="category-tag">Executive</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -100,14 +100,14 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/lisa.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Lisa Menu</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Marketing</span>
-                                <span class="category-tag">Academic</span>
-                            </div>
+                            <span class="category-tag">Marketing</span>
+                            <span class="category-tag">Academic</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -123,13 +123,13 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/karl.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Karl Fruit</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Entrepreneurship</span>
-                            </div>
+                            <span class="category-tag">Entrepreneurship</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -145,14 +145,14 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/chadi.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Chadi Brush</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Education</span>
-                                <span class="category-tag">Business</span>
-                            </div>
+                            <span class="category-tag">Education</span>
+                            <span class="category-tag">Business</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -237,10 +237,10 @@
     <div class="modal-overlay hidden" id="chatModal">
         <div class="modal chat-modal">
             <div class="chat-modal-inner">
-                <div class="modal-header">
-                    <h3 class="modal-title">Chat with <span class="chat-nerd-name">Andrew DeBad</span></h3>
-                    <button class="modal-close">&times;</button>
-                </div>
+            <div class="modal-header">
+                <h3 class="modal-title">Chat with <span class="chat-nerd-name">Andrew DeBad</span></h3>
+                <button class="modal-close">&times;</button>
+            </div>
                 <div class="modal-content chat-messages" id="chatMessages">
                     <!-- Messages will be added here -->
                 </div>
@@ -248,7 +248,7 @@
                     <div class="chat-footer">
                         <div class="chat-input-wrapper">
                             <input type="text" class="chat-input" placeholder="Type your message..." id="chatInput">
-                            <button type="button" class="chat-send-btn" id="sendMessage" onclick="handleSendMessage()">Send Message</button>
+                            <button type="button" class="chat-send-btn" id="sendMessage" onclick="window.handleSendMessage()">Send Message</button>
                         </div>
                     </div>
                 </form>
@@ -604,32 +604,62 @@
             position: relative;
             word-wrap: break-word;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            background-color: #f1f5f9; /* Default background */
         }
 
-        /* User message bubble */
         .user-message {
             align-self: flex-end;
-            background: #d1e7fd; /* Light blue background for user messages */
-            color: #1e293b; /* Text color for user messages */
-            margin-left: auto; /* Push to right */
-            border-bottom-right-radius: 5px; /* Add a tail effect */
+            background: #d1e7fd;
+            color: #1e293b;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
         }
 
-        /* Nerd message bubble */
         .nerd-message {
             align-self: flex-start;
-            background: #f1f5f9; /* Light gray background */
-            color: #1e293b; /* Text color */
-            margin-right: auto; /* Push to left */
-            border-bottom-left-radius: 5px; /* Add a tail effect */
+            background: #f1f5f9;
+            color: #1e293b;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
         }
-
+        
         .typing-indicator {
             opacity: 0.7;
-            background-color: #f1f5f9;
-            position: relative;
-            z-index: 5; /* Make sure it's above other content but below footer */
+        }
+        
+        .error-message {
+            background: #fee2e2 !important;
+            color: #dc2626 !important;
+            padding: 1rem;
+            margin: 0.5rem auto;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            border: 1px solid #fecaca;
+            word-break: break-word;
+            max-width: 90% !important;
+            clear: both;
+            float: none !important;
+        }
+        
+        /* Message content formatting */
+        .message-content {
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+        
+        .message-content p {
+            margin-bottom: 0.8rem;
+        }
+        
+        .message-content ul, 
+        .message-content ol {
+            padding-left: 1.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .message-content li {
+            margin-bottom: 0.5rem;
         }
 
         /* Mobile-specific message styling */
@@ -661,24 +691,6 @@
                 display: table;
                 clear: both;
             }
-        }
-
-        /* Error message styling (more prominent) */
-        .error-message {
-            background: #fee2e2 !important;
-            color: #dc2626 !important;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            text-align: center;
-            border: 1px solid #fecaca;
-            word-break: break-word;
-            clear: both;
-            max-width: 90% !important;
-            margin-left: auto;
-            margin-right: auto;
-            float: none !important;
         }
 
         /* Add hidden class */
@@ -837,7 +849,7 @@
                 gap: 10px; /* Smaller gap */
                 padding: 10px;
             }
-            
+
             .nerd-card {
                 max-width: 100%; /* Full width within grid cell */
                 min-height: 250px; /* Smaller minimum height */
@@ -948,7 +960,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            width: 100%;
+                width: 100%;
             position: relative;
         }
 
@@ -994,7 +1006,7 @@
                 border-radius: 0;
                 margin: 0;
             }
-            
+
             .chat-modal-inner {
                 overflow: hidden;
                 height: 100%;
@@ -1549,7 +1561,7 @@
 
             // Store chat history for each nerd
             const chatHistory = {};
-            
+
             // Chat button functionality
             const chatButtons = document.querySelectorAll('.chat-btn');
             const chatModal = document.getElementById('chatModal');
@@ -1574,10 +1586,10 @@
                         });
                     } else {
                         // Send introductory message for first-time chats
-                        const introMessage = `Hello! I'm ${nerdName}. How can I assist you today?`;
-                        const messageElement = document.createElement('div');
-                        messageElement.className = 'chat-message nerd-message';
-                        messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
+                    const introMessage = `Hello! I'm ${nerdName}. How can I assist you today?`;
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'chat-message nerd-message';
+                    messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
                         chatMessages.appendChild(messageElement);
                         
                         // Initialize chat history for this nerd
@@ -1628,44 +1640,109 @@
                     const chatMessages = document.getElementById('chatMessages');
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                     
-                    // Show simple typing indicator
+                    // Show typing indicator
                     const typingIndicator = document.createElement('div');
                     typingIndicator.className = 'chat-message nerd-message typing-indicator';
                     typingIndicator.innerHTML = `<div class="message-content">Typing...</div>`;
                     chatMessages.appendChild(typingIndicator);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                     
-                    // Simple response (for now)
-                    setTimeout(function() {
+                    // Get expertise based on nerd name
+                    let expertise = "various topics";
+                    if (nerdProfiles[nerdName] && nerdProfiles[nerdName].categories) {
+                        expertise = nerdProfiles[nerdName].categories.join(', ');
+                    }
+                    
+                    // Call the API with proper error handling
+                    fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            nerdName: nerdName,
+                            nerdExpertise: expertise
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error || 'Failed to get response');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
                         // Remove typing indicator
-                        typingIndicator.remove();
+                        const indicator = document.querySelector('.typing-indicator');
+                        if (indicator) indicator.remove();
                         
-                        // Add response message
+                        // Create response message
                         const responseElement = document.createElement('div');
                         responseElement.className = 'chat-message nerd-message';
-                        responseElement.innerHTML = `<div class="message-content">This is a response to: "${message}"</div>`;
+                        
+                        // Format response using marked for markdown
+                        let formattedResponse;
+                        try {
+                            formattedResponse = marked.parse(data.response);
+                        } catch (e) {
+                            console.error('Markdown parsing error:', e);
+                            formattedResponse = data.response
+                                .replace(/\n/g, '<br>')
+                                .replace(/</g, '&lt;')
+                                .replace(/>/g, '&gt;');
+                        }
+                        
+                        responseElement.innerHTML = `<div class="message-content">${formattedResponse}</div>`;
                         chatMessages.appendChild(responseElement);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 1000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        
+                        // Remove typing indicator
+                        const indicator = document.querySelector('.typing-indicator');
+                        if (indicator) indicator.remove();
+                        
+                        // Show error message
+                        const errorElement = document.createElement('div');
+                        errorElement.className = 'chat-message error-message';
+                        errorElement.innerHTML = `<div class="message-content">Sorry, I couldn't process your request: ${error.message}</div>`;
+                        chatMessages.appendChild(errorElement);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
                 }
             }
             
-            // Add this at the end of the DOMContentLoaded function
+            // Make sure these are defined globally for the inline onclick to work
+            window.handleSendMessage = handleSendMessage;
+            
             document.addEventListener('DOMContentLoaded', function() {
-                // ... existing code ...
-                
-                // Simple direct handlers
-                document.getElementById('sendMessage').onclick = handleSendMessage;
-                
+                // When page loads, set up additional event handlers
+                const sendButton = document.getElementById('sendMessage');
                 const chatInput = document.getElementById('chatInput');
-                chatInput.onkeypress = function(e) {
-                    if (e.key === 'Enter') {
+                
+                // Add both click and touchstart events to maximize compatibility
+                if (sendButton) {
+                    sendButton.addEventListener('click', handleSendMessage);
+                    sendButton.addEventListener('touchstart', function(e) {
                         e.preventDefault();
                         handleSendMessage();
-                    }
-                };
+                    });
+                }
                 
-                // ... rest of existing code ...
+                // Handle enter key in input
+                if (chatInput) {
+                    chatInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleSendMessage();
+                        }
+                    });
+                }
+                
+                // Rest of your existing DOMContentLoaded code
             });
         });
     </script>
