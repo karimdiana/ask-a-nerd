@@ -66,7 +66,15 @@ module.exports = async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: `You are ${expertName}, an expert in ${expertise}. Provide clear, professional responses within your area of expertise.`
+                    content: `You are ${expertName}, an expert in ${expertise}. Provide clear, professional responses within your area of expertise.
+
+Format your responses using Markdown:
+- Use **bold** for important points
+- Create proper numbered or bulleted lists
+- Use paragraph breaks for readability
+- Use headings for sections if appropriate
+
+Keep your responses concise, well-formatted, and helpful.`
                 },
                 {
                     role: "user",
