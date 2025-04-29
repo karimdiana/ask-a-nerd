@@ -1,36 +1,57 @@
 # Nerd Chat Application
 
-A chat application that allows users to interact with expert "nerds" using ChatGPT API.
+A chat application that connects users with expert "nerds" in various fields.
 
-## Setup
+## Setup Instructions
 
 1. Clone the repository
 ```bash
 git clone <your-repo-url>
-cd nerd-chat
+cd nerd
 ```
 
-2. Install dependencies
+2. Create a `.env` file in the root directory
+```bash
+# Copy the example env file
+cp .env.example .env
+
+# Or create a new .env file with these contents:
+OPENAI_API_KEY=your_api_key_here
+PORT=3000
+```
+
+3. Get your OpenAI API key
+- Go to https://platform.openai.com/api-keys
+- Create a new API key
+- Copy the key and paste it in your `.env` file
+
+4. Install dependencies
 ```bash
 npm install
 ```
 
-3. Set up environment variables
-- Copy `.env.example` to `.env`
+5. Start the server
 ```bash
-cp .env.example .env
-```
-- Edit `.env` and add your OpenAI API key
-```
-OPENAI_API_KEY=your_api_key_here
+node server.js
 ```
 
-4. Start the server
-```bash
-npm start
-```
+6. Open the application in your browser
+- Go to `http://localhost:3000`
 
-5. Open `dashboard.html` in your browser
+## Important Notes
+
+- The `.env` file contains sensitive information and should NEVER be committed to Git
+- Make sure `.env` is in your `.gitignore` file
+- Only commit `.env.example` as a template
+- Each developer needs to create their own `.env` file with their own API key
+
+## Troubleshooting
+
+If the chat doesn't work:
+1. Check if the server is running
+2. Verify your `.env` file exists and has the correct API key
+3. Check the browser console for any errors
+4. Make sure you're connected to the internet
 
 ## Security Notes
 
