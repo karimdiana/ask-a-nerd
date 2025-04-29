@@ -542,6 +542,8 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            width: 100%;
+            position: relative;
         }
 
         .chat-input {
@@ -558,6 +560,8 @@
             background: white;
             box-sizing: border-box;
             display: block;
+            z-index: 10;
+            position: relative;
         }
 
         .chat-send-btn {
@@ -576,6 +580,8 @@
             display: block;
             margin: auto;
             margin-top: 20px;
+            z-index: 10;
+            position: relative;
         }
 
         .chat-send-btn:hover {
@@ -593,14 +599,16 @@
             overflow-y: auto; /* Allow scrolling */
         }
 
+        /* Chat Message Styling */
         .chat-message {
-                margin-bottom: 1rem;
+            margin-bottom: 1rem;
             max-width: 80%;
             border-radius: 20px;
             padding: 10px 15px;
             position: relative;
             word-wrap: break-word;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background-color: #f1f5f9; /* Default background */
         }
 
         /* User message bubble */
@@ -621,14 +629,50 @@
             border-bottom-left-radius: 5px; /* Add a tail effect */
         }
 
-        .message-content {
-            line-height: 1.4; /* Better line spacing */
+        .typing-indicator {
+            opacity: 0.7;
+            background-color: #f1f5f9;
+            position: relative;
+            z-index: 5; /* Make sure it's above other content but below footer */
         }
 
-        /* Error message styling */
+        /* Mobile-specific message styling */
+        @media (max-width: 768px) {
+            .chat-message {
+                max-width: 85%; /* Wider messages on mobile */
+                clear: both; /* Prevent wrapping issues */
+                position: relative;
+                z-index: 5;
+                margin-bottom: 0.8rem;
+            }
+            
+            .nerd-message {
+                float: left;
+                background-color: #f1f5f9; /* Ensure consistent background */
+            }
+            
+            .user-message {
+                float: right;
+                background-color: #d1e7fd; /* Ensure consistent background */
+            }
+            
+            .message-content {
+                position: relative;
+                z-index: 6;
+                background: transparent;
+            }
+            
+            .chat-messages::after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+        }
+
+        /* Error message styling (more prominent) */
         .error-message {
-            background: #fee2e2;
-            color: #dc2626;
+            background: #fee2e2 !important;
+            color: #dc2626 !important;
             padding: 1rem;
             margin: 0.5rem 0;
             border-radius: 8px;
@@ -636,6 +680,11 @@
             text-align: center;
             border: 1px solid #fecaca;
             word-break: break-word;
+            clear: both;
+            max-width: 90% !important;
+            margin-left: auto;
+            margin-right: auto;
+            float: none !important;
         }
 
         /* Add hidden class */
@@ -859,7 +908,7 @@
             }
         }
 
-        /* Chat Modal Specific Styles */
+        /* Chat Modal Styling */
         .chat-modal {
             display: flex;
             flex-direction: column;
@@ -872,6 +921,15 @@
             overflow: hidden;
         }
 
+        .chat-modal-inner {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Prevent double scrolling */
+        }
+
         .chat-footer {
             position: absolute;
             bottom: 0;
@@ -880,17 +938,20 @@
             background: white;
             padding: 12px;
             border-top: 1px solid #e2e8f0;
-            box-shadow: none;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1); /* Add shadow for separation */
             height: 140px;
             box-sizing: border-box;
+            z-index: 10; /* Ensure it stays above content */
         }
 
         .modal-content.chat-messages {
             flex: 1;
             overflow-y: auto;
             padding: 1rem;
-            padding-bottom: 152px;
-            height: calc(100% - 140px);
+            padding-bottom: 152px; /* Ensure space for footer */
+            height: calc(100% - 60px); /* Adjust for header height */
+            position: relative;
+            background: white;
         }
 
         /* Mobile Styles */
@@ -901,36 +962,41 @@
                 width: 100%;
                 max-width: 100%;
                 border-radius: 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
             }
 
             .chat-footer {
                 width: 100%;
                 height: 140px;
+                position: fixed; /* Use fixed instead of absolute */
+                bottom: 0;
+                left: 0;
+                z-index: 20; /* Higher z-index */
             }
 
             .modal-content.chat-messages {
-                padding-bottom: 152px;
+                padding-bottom: 160px; /* Extra padding to ensure messages don't get hidden */
+                margin-bottom: 0;
+                height: calc(100% - 60px); /* Adjust for header */
+            }
+            
+            .chat-message {
+                position: relative; /* Ensure proper stacking */
+                z-index: 1; /* Lower than the footer */
+            }
+            
+            .modal-header {
+                position: sticky;
+                top: 0;
+                z-index: 20;
+                background: white;
             }
         }
 
-        /* Add typing indicator styles */
-        .typing-indicator {
-            opacity: 0.7;
-        }
-        
-        /* Error message styling (more prominent) */
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            text-align: center;
-            border: 1px solid #fecaca;
-            word-break: break-word;
-        }
-        
         /* Improved message content formatting */
         .message-content {
             white-space: pre-wrap;
@@ -1526,8 +1592,8 @@
                 
                 /* Error message styling (more prominent) */
                 .error-message {
-                    background: #fee2e2;
-                    color: #dc2626;
+                    background: #fee2e2 !important;
+                    color: #dc2626 !important;
                     padding: 1rem;
                     margin: 0.5rem 0;
                     border-radius: 8px;
@@ -1535,6 +1601,11 @@
                     text-align: center;
                     border: 1px solid #fecaca;
                     word-break: break-word;
+                    clear: both;
+                    max-width: 90% !important;
+                    margin-left: auto;
+                    margin-right: auto;
+                    float: none !important;
                 }
                 
                 /* Improved message content formatting */
