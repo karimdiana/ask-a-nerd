@@ -524,7 +524,8 @@
             flex: 1;
             overflow-y: auto;
             padding: 1rem;
-            padding-bottom: 152px;
+            padding-bottom: 80px; /* Reduced padding to account for the side-by-side layout */
+            background-color: white;
         }
 
         .chat-footer {
@@ -542,8 +543,9 @@
 
         .chat-input-wrapper {
             display: flex;
-            flex-direction: column;
-            height: 100%;
+            flex-direction: row; /* Changed to row to place elements side by side */
+            align-items: center;
+            gap: 10px;
             width: 100%;
             position: relative;
             padding: 10px;
@@ -551,32 +553,22 @@
         }
 
         .chat-input {
-            width: 100%;
+            flex: 1; /* Take up available space */
             height: 45px;
-            min-height: 45px;
-            max-height: 45px;
             padding: 10px 15px;
             border-radius: 8px;
             border: 1px solid #cbd5e1;
-            resize: none;
             font-family: inherit;
             font-size: 1rem;
             background: white;
             box-sizing: border-box;
-            display: block;
-            z-index: 50; /* Increased z-index */
-            position: relative;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-            touch-action: manipulation;
-            -webkit-user-select: text;
-            user-select: text;
+            margin-bottom: 0; /* Remove bottom margin */
         }
 
         .chat-send-btn {
-            width: 90%;
+            width: auto; /* Auto width instead of 100% */
+            min-width: 100px; /* Minimum width */
             height: 45px;
-            min-height: 45px;
-            max-height: 45px;
             background: #0d6efd;
             color: white;
             border: none;
@@ -584,13 +576,7 @@
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: none;
-            display: block;
-            margin: 10px auto 0; /* Reduced top margin */
-            z-index: 50; /* Increased z-index */
-            position: relative;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
-            touch-action: manipulation;
+            white-space: nowrap; /* Prevent text wrapping */
         }
 
         .chat-send-btn:disabled {
@@ -649,21 +635,19 @@
         /* Mobile-specific message styling */
         @media (max-width: 768px) {
             .chat-message {
-                max-width: 85%; /* Wider messages on mobile */
-                clear: both; /* Prevent wrapping issues */
-                position: relative;
-                z-index: 5;
+                max-width: 85%;
+                clear: both;
                 margin-bottom: 0.8rem;
             }
             
             .nerd-message {
                 float: left;
-                background-color: #f1f5f9; /* Ensure consistent background */
+                background-color: #f1f5f9;
             }
             
             .user-message {
                 float: right;
-                background-color: #d1e7fd; /* Ensure consistent background */
+                background-color: #d1e7fd;
             }
             
             .message-content {
@@ -914,96 +898,125 @@
             }
 
             .modal-content.chat-messages {
-                padding-bottom: 152px; /* Adjust padding for mobile */
+                padding-bottom: 80px; /* Adjusted padding */
+            }
+            
+            #chatMessages {
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                position: relative;
+                z-index: 5;
+                background-color: white;
+                padding-bottom: 70px !important;
+            }
+            
+            .chat-form {
+                background-color: white;
+            }
+            
+            /* Better mobile message styling */
+            .chat-message {
+                max-width: 85%;
+                clear: both;
+                margin-bottom: 0.8rem;
+            }
+            
+            .nerd-message {
+                float: left;
+                background-color: #f1f5f9;
+            }
+            
+            .user-message {
+                float: right;
+                background-color: #d1e7fd;
             }
         }
 
         /* Chat Modal Styling */
         .chat-modal {
-            display: flex;
-            flex-direction: column;
             height: 80vh;
             max-width: 600px;
-            width: 100%;
-            position: relative;
-            background: white;
+            width: 90%;
             border-radius: 12px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: white;
         }
 
         .chat-modal-inner {
-            position: relative;
             display: flex;
             flex-direction: column;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Prevent double scrolling */
+            position: relative;
         }
 
-        .chat-footer {
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-form {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
-            padding: 12px;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1); /* Add shadow for separation */
-            height: 140px;
-            box-sizing: border-box;
-            z-index: 10; /* Ensure it stays above content */
+            z-index: 9999;
         }
-
-        .modal-content.chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            padding-bottom: 152px; /* Ensure space for footer */
-            height: calc(100% - 60px); /* Adjust for header height */
+        
+        .chat-footer {
             position: relative;
             background: white;
+            padding: 0;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
         }
 
-        /* Mobile Styles */
+        /* Mobile specific chat modal styles */
         @media (max-width: 768px) {
-            .chat-modal {
+            .modal-overlay {
+                width: 100vw;
                 height: 100vh;
-                max-height: 100vh;
-                width: 100%;
-                max-width: 100%;
-                border-radius: 0;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-            }
-
-            .chat-footer {
-                width: 100%;
-                height: 140px;
-                position: fixed; /* Use fixed instead of absolute */
-                bottom: 0;
-                left: 0;
-                z-index: 20; /* Higher z-index */
-            }
-
-            .modal-content.chat-messages {
-                padding-bottom: 160px; /* Extra padding to ensure messages don't get hidden */
-                margin-bottom: 0;
-                height: calc(100% - 60px); /* Adjust for header */
+                overflow: hidden;
             }
             
-            .chat-message {
-                position: relative; /* Ensure proper stacking */
-                z-index: 1; /* Lower than the footer */
+            .chat-modal {
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                margin: 0;
+            }
+            
+            .chat-modal-inner {
+                overflow: hidden;
+                height: 100%;
             }
             
             .modal-header {
                 position: sticky;
                 top: 0;
-                z-index: 20;
-                background: white;
+                z-index: 50;
+            }
+            
+            /* Fix for iOS */
+            .chat-input {
+                -webkit-appearance: none;
+                appearance: none;
+                font-size: 16px;
+            }
+            
+            /* Ensure proper scrolling on iOS */
+            .modal-content.chat-messages {
+                -webkit-overflow-scrolling: touch;
+                height: calc(100% - 60px);
             }
         }
 
@@ -1032,79 +1045,25 @@
         /* Additional fixes for mobile chat */
         @media (max-width: 768px) {
             .chat-input-wrapper {
-                position: relative;
-                z-index: 30;
-                background: white;
-                border-top: 1px solid #e2e8f0;
+                flex-direction: row; /* Ensure row layout on mobile */
                 padding: 10px;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
+                gap: 8px; /* Slightly smaller gap on mobile */
             }
             
             .chat-input {
-                width: 100%;
-                border: 1px solid #cbd5e1;
-                background: white;
-                font-size: 16px;
-                margin-bottom: 8px; /* Add margin below input */
+                height: 40px; /* Slightly smaller height */
+                font-size: 16px; /* Prevent zoom on iOS */
             }
             
             .chat-send-btn {
-                width: 100%;
-                margin-top: 5px; /* Reduce space between input and button */
-                height: 45px;
-                min-height: 45px;
-                max-height: 45px;
-                margin-bottom: 5px;
+                min-width: 80px; /* Smaller minimum width */
+                height: 40px; /* Match input height */
+                padding: 0 10px; /* Add some padding */
             }
             
-            /* Update padding to account for smaller footer */
-            #chatMessages {
-                padding-bottom: 140px !important;
-            }
-            
-            /* Improve button tap target */
-            .chat-send-btn {
-                -webkit-tap-highlight-color: rgba(0,0,0,0);
-                touch-action: manipulation;
-            }
-            
-            /* Ensure proper message display on mobile */
-            #chatMessages {
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                position: relative;
-                z-index: 5;
-                background-color: white;
-            }
-            
-            /* Fix modal content scroll */
-            .modal-content {
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* Prevent input zoom on iOS */
-            input, textarea, select {
-                font-size: 16px !important;
-            }
-            
-            /* Modal styling fixes */
-            .modal-overlay {
-                position: fixed;
-                width: 100vw;
-                height: 100vh;
-                overflow: hidden;
-            }
-            
-            /* Fix for chat modal */
-            .chat-modal-inner {
-                overflow: hidden !important;
-                height: 100% !important;
-                display: flex;
-                flex-direction: column;
+            .chat-footer {
+                padding: 0;
+                height: auto; /* Auto height */
             }
         }
 
@@ -1157,7 +1116,9 @@
 
         .chat-input-wrapper {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Changed to row to place elements side by side */
+            align-items: center;
+            gap: 10px;
             width: 100%;
             position: relative;
             padding: 10px;
@@ -1165,7 +1126,7 @@
         }
 
         .chat-input {
-            width: 100%;
+            flex: 1; /* Take up available space */
             height: 45px;
             padding: 10px 15px;
             border-radius: 8px;
@@ -1174,11 +1135,12 @@
             font-size: 1rem;
             background: white;
             box-sizing: border-box;
-            margin-bottom: 10px;
+            margin-bottom: 0; /* Remove bottom margin */
         }
 
         .chat-send-btn {
-            width: 100%;
+            width: auto; /* Auto width instead of 100% */
+            min-width: 100px; /* Minimum width */
             height: 45px;
             background: #0d6efd;
             color: white;
@@ -1187,6 +1149,7 @@
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
+            white-space: nowrap; /* Prevent text wrapping */
         }
 
         .chat-send-btn:hover {
