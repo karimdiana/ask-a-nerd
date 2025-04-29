@@ -1284,6 +1284,9 @@
                 });
             });
 
+            // Store chat history for each nerd
+            const chatHistory = {};
+            
             // Chat button functionality
             const chatButtons = document.querySelectorAll('.chat-btn');
             const chatModal = document.getElementById('chatModal');
@@ -1296,15 +1299,33 @@
                     // Update chat modal with nerd's name
                     document.querySelector('.chat-nerd-name').textContent = nerdName;
                     
+                    // Clear previous chat and load history if exists
+                    const chatMessages = document.getElementById('chatMessages');
+                    chatMessages.innerHTML = '';
+                    
+                    // Check if there's history for this nerd
+                    if (chatHistory[nerdName] && chatHistory[nerdName].length > 0) {
+                        // Restore previous messages
+                        chatHistory[nerdName].forEach(msg => {
+                            chatMessages.appendChild(msg.cloneNode(true));
+                        });
+                    } else {
+                        // Send introductory message for first-time chats
+                        const introMessage = `Hello! I'm ${nerdName}. How can I assist you today?`;
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'chat-message nerd-message';
+                        messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
+                        chatMessages.appendChild(messageElement);
+                        
+                        // Initialize chat history for this nerd
+                        chatHistory[nerdName] = [messageElement.cloneNode(true)];
+                    }
+                    
                     // Show the Chat modal
                     chatModal.classList.remove('hidden');
-
-                    // Send introductory message
-                    const introMessage = `Hello! I'm ${nerdName}. How can I assist you today?`;
-                    const messageElement = document.createElement('div');
-                    messageElement.className = 'chat-message nerd-message';
-                    messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
-                    document.getElementById('chatMessages').appendChild(messageElement);
+                    
+                    // Auto-scroll to the bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 });
             });
 
@@ -1328,11 +1349,20 @@
             sendMessageButton.addEventListener('click', function() {
                 const message = chatInput.value.trim();
                 if (message) {
+                    // Get current nerd name
+                    const nerdName = document.querySelector('.chat-nerd-name').textContent;
+                    
                     // Add the message to the chat messages area
                     const messageElement = document.createElement('div');
                     messageElement.className = 'chat-message user-message';
                     messageElement.innerHTML = `<div class="message-content">${message}</div>`;
                     document.getElementById('chatMessages').appendChild(messageElement);
+                    
+                    // Add to chat history
+                    if (!chatHistory[nerdName]) {
+                        chatHistory[nerdName] = [];
+                    }
+                    chatHistory[nerdName].push(messageElement.cloneNode(true));
                     
                     // Clear the input
                     chatInput.value = '';
@@ -1348,9 +1378,6 @@
                     typingIndicator.innerHTML = `<div class="message-content">Typing...</div>`;
                     chatMessages.appendChild(typingIndicator);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    // Get the nerd name from the chat modal
-                    const nerdName = document.querySelector('.chat-nerd-name').textContent;
                     
                     // Call the API instead of simulating a response
                     fetch('/api/chat', {
@@ -1403,6 +1430,9 @@
                         
                         chatMessages.appendChild(responseElement);
                         
+                        // Add to chat history
+                        chatHistory[nerdName].push(responseElement.cloneNode(true));
+                        
                         // Auto-scroll to the bottom
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     })
@@ -1420,6 +1450,9 @@
                         errorElement.className = 'chat-message error-message';
                         errorElement.innerHTML = `<div class="message-content">Sorry, I couldn't process your request: ${error.message || 'Unknown error'}</div>`;
                         chatMessages.appendChild(errorElement);
+                        
+                        // Add to chat history
+                        chatHistory[nerdName].push(errorElement.cloneNode(true));
                         
                         // Auto-scroll to the bottom
                         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1458,15 +1491,30 @@
                 document.getElementById('aboutModal').classList.add('hidden');
                 chatModal.classList.remove('hidden');
                 
-                // Clear existing messages
-                document.getElementById('chatMessages').innerHTML = '';
+                // Clear previous chat and load history if exists
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
                 
-                // Send introductory message
-                const introMessage = `Hello! I'm ${nerdName}. How can I assist you today?`;
-                const messageElement = document.createElement('div');
-                messageElement.className = 'chat-message nerd-message';
-                messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
-                document.getElementById('chatMessages').appendChild(messageElement);
+                // Check if there's history for this nerd
+                if (chatHistory[nerdName] && chatHistory[nerdName].length > 0) {
+                    // Restore previous messages
+                    chatHistory[nerdName].forEach(msg => {
+                        chatMessages.appendChild(msg.cloneNode(true));
+                    });
+                } else {
+                    // Send introductory message for first-time chats
+                    const introMessage = `Hello! I'm ${nerdName}. How can I assist you today?`;
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'chat-message nerd-message';
+                    messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
+                    chatMessages.appendChild(messageElement);
+                    
+                    // Initialize chat history for this nerd
+                    chatHistory[nerdName] = [messageElement.cloneNode(true)];
+                }
+                
+                // Auto-scroll to the bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             });
 
             // Add typing indicator styles
