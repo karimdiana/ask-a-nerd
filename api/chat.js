@@ -24,11 +24,14 @@ module.exports = async (req, res) => {
         // Get API key from environment variables
         const apiKey = process.env.OPENAI;
         
+        // Log API key status (not the actual key)
+        console.log('API Key status:', apiKey ? 'Found' : 'Missing');
+        
         // Check if API key exists
         if (!apiKey) {
             return res.status(500).json({
                 status: 'error',
-                error: 'OpenAI API key is missing'
+                error: 'OpenAI API key is missing. Please add it to your environment variables.'
             });
         }
 
@@ -37,6 +40,13 @@ module.exports = async (req, res) => {
         
         // Extract request data
         const { message, nerdName, nerdExpertise } = req.body || {};
+        
+        // Log request data (for debugging)
+        console.log('Request data:', { 
+            message: message ? 'Provided' : 'Missing', 
+            nerdName, 
+            nerdExpertise 
+        });
         
         // Validate message
         if (!message) {
@@ -79,11 +89,13 @@ module.exports = async (req, res) => {
     } catch (error) {
         // Log error details
         console.error('API Error:', error.message);
+        console.error('Full error:', error);
         
-        // Return error response
+        // Return error response with more details
         return res.status(500).json({
             status: 'error',
-            error: error.message || 'Failed to get response from AI'
+            error: error.message || 'Failed to get response from AI',
+            details: error.stack ? error.stack.split('\n')[0] : 'No additional details'
         });
     }
 }; 

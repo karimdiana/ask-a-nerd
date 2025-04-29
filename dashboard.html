@@ -77,14 +77,14 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/andrew.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Andrew DeBad</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Business</span>
-                                <span class="category-tag">Executive</span>
-                            </div>
+                            <span class="category-tag">Business</span>
+                            <span class="category-tag">Executive</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -100,14 +100,14 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/lisa.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Lisa Menu</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Marketing</span>
-                                <span class="category-tag">Academic</span>
-                            </div>
+                            <span class="category-tag">Marketing</span>
+                            <span class="category-tag">Academic</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -123,13 +123,13 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/karl.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Karl Fruit</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Entrepreneurship</span>
-                            </div>
+                            <span class="category-tag">Entrepreneurship</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -145,14 +145,14 @@
                     <div class="nerd-card-inner">
                         <div class="nerd-image-section">
                             <img class="nerd-image" alt="Nerd Profile Picture" src="photos/chadi.png">
-                        </div>
+                    </div>
                         <div class="nerd-info-section">
                             <h2 class="nerd-name">Chadi Brush</h2>
                             <div class="nerd-tags-container">
-                                <span class="category-tag">Education</span>
-                                <span class="category-tag">Business</span>
-                            </div>
+                            <span class="category-tag">Education</span>
+                            <span class="category-tag">Business</span>
                         </div>
+                    </div>
                         <div class="nerd-actions-section">
                             <button class="btn btn-primary action-button chat-btn">Chat with Me</button>
                             <button class="btn btn-outline-primary action-button about-btn">About Me</button>
@@ -1302,19 +1302,87 @@
                     const chatMessages = document.getElementById('chatMessages');
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                     
-                    // Simulate a response from the nerd after a short delay
-                    setTimeout(() => {
-                        const nerdName = document.querySelector('.chat-nerd-name').textContent;
+                    // Show typing indicator
+                    const typingIndicator = document.createElement('div');
+                    typingIndicator.className = 'chat-message nerd-message typing-indicator';
+                    typingIndicator.innerHTML = `<div class="message-content">Typing...</div>`;
+                    chatMessages.appendChild(typingIndicator);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // Get the nerd name from the chat modal
+                    const nerdName = document.querySelector('.chat-nerd-name').textContent;
+                    
+                    // Call the API instead of simulating a response
+                    fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            nerdName: nerdName,
+                            nerdExpertise: getNerdExpertise(nerdName)
+                        })
+                    })
+                    .then(response => {
+                        console.log('API Response Status:', response.status);
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error || 'API request failed');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('API Response Data:', data);
+                        // Remove typing indicator
+                        document.querySelector('.typing-indicator')?.remove();
+                        
+                        // Create response message
                         const responseElement = document.createElement('div');
                         responseElement.className = 'chat-message nerd-message';
-                        responseElement.innerHTML = `<div class="message-content">Thanks for your message! This is a simulated response from ${nerdName}.</div>`;
+                        
+                        // Check if we have a valid response
+                        if (data && data.response) {
+                            responseElement.innerHTML = `<div class="message-content">${data.response}</div>`;
+                        } else {
+                            responseElement.innerHTML = `<div class="message-content">I'm sorry, I couldn't generate a response at this time.</div>`;
+                        }
+                        
                         chatMessages.appendChild(responseElement);
                         
-                        // Auto-scroll to the bottom again
+                        // Auto-scroll to the bottom
                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }, 1000);
+                    })
+                    .catch(error => {
+                        console.error('Error details:', error);
+                        
+                        // Remove typing indicator
+                        const typingIndicator = document.querySelector('.typing-indicator');
+                        if (typingIndicator) {
+                            typingIndicator.remove();
+                        }
+                        
+                        // Show error message
+                        const errorElement = document.createElement('div');
+                        errorElement.className = 'chat-message error-message';
+                        errorElement.innerHTML = `<div class="message-content">Sorry, I couldn't process your request: ${error.message || 'Unknown error'}</div>`;
+                        chatMessages.appendChild(errorElement);
+                        
+                        // Auto-scroll to the bottom
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
                 }
             });
+            
+            // Helper function to get nerd expertise based on name
+            function getNerdExpertise(nerdName) {
+                const nerdData = nerdProfiles[nerdName];
+                if (nerdData && nerdData.categories) {
+                    return nerdData.categories.join(', ');
+                }
+                return 'various topics';
+            }
             
             // Allow sending message with Enter key
             chatInput.addEventListener('keypress', function(e) {
@@ -1348,6 +1416,28 @@
                 messageElement.innerHTML = `<div class="message-content">${introMessage}</div>`;
                 document.getElementById('chatMessages').appendChild(messageElement);
             });
+
+            // Add typing indicator styles
+            const styleElement = document.createElement('style');
+            styleElement.innerHTML = `
+                .typing-indicator {
+                    opacity: 0.7;
+                }
+                
+                /* Error message styling (more prominent) */
+                .error-message {
+                    background: #fee2e2;
+                    color: #dc2626;
+                    padding: 1rem;
+                    margin: 0.5rem 0;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    text-align: center;
+                    border: 1px solid #fecaca;
+                    word-break: break-word;
+                }
+            `;
+            document.head.appendChild(styleElement);
         });
     </script>
 </body>
