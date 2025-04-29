@@ -1,7 +1,10 @@
 const OpenAI = require('openai');
 
-// Environment variables
-const apiKey = process.env.OPENAI_API_KEY;
+// Fix environment variable name (OPENAI instead of OPENAI_API_KEY)
+const apiKey = process.env.OPENAI || '';
+
+// For debugging
+console.log('API key exists:', !!apiKey);
 
 // Configure OpenAI
 const openai = new OpenAI({
@@ -20,6 +23,9 @@ module.exports = async (req, res) => {
         return res.status(200).end();
     }
 
+    console.log('Request method:', req.method);
+    console.log('Request body:', req.body);
+
     // Only allow POST for actual requests
     if (req.method !== 'POST') {
         return res.status(405).json({
@@ -31,15 +37,17 @@ module.exports = async (req, res) => {
     try {
         // Check API key
         if (!apiKey) {
+            console.error('API key is missing');
             return res.status(500).json({
                 status: 'error',
                 error: 'OpenAI API key is not configured'
             });
         }
 
-        const { message, nerdName, nerdExpertise } = req.body;
+        const { message, nerdName, nerdExpertise } = req.body || {};
 
         if (!message) {
+            console.error('Message is missing');
             return res.status(400).json({
                 status: 'error',
                 error: 'Message is required'
@@ -50,6 +58,7 @@ module.exports = async (req, res) => {
         const expertName = nerdName || 'an AI assistant';
         const expertise = nerdExpertise || 'various topics';
 
+        console.log('Sending request to OpenAI API');
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
@@ -66,6 +75,7 @@ module.exports = async (req, res) => {
             max_tokens: 500
         });
 
+        console.log('Received response from OpenAI API');
         const response = completion.choices[0].message.content;
 
         return res.status(200).json({

@@ -926,45 +926,61 @@
                 const typingIndicator = addTypingIndicator();
 
                 try {
-                    console.log('Sending message to nerd:', currentNerdName);
+                    console.log('Current nerd:', currentNerdName, currentNerdExpertise);
+                    console.log('Sending message:', message);
                     
-                    // Use the correct API endpoint for Vercel
+                    // Make sure we're using the correct API URL
+                    // This directly uses the API endpoint without any window.location manipulation
                     const apiUrl = '/api/chat';
-                    console.log('API URL:', apiUrl);
+                    const payload = {
+                        message: message,
+                        nerdName: currentNerdName || '',
+                        nerdExpertise: currentNerdExpertise || ''
+                    };
+                    console.log('Sending to:', apiUrl);
+                    console.log('Payload:', payload);
                     
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({
-                            message: message,
-                            nerdName: currentNerdName || '',
-                            nerdExpertise: currentNerdExpertise || ''
-                        })
+                        body: JSON.stringify(payload)
                     });
 
                     // Remove typing indicator
                     typingIndicator.remove();
 
                     console.log('Response status:', response.status);
+                    console.log('Response headers:', [...response.headers.entries()]);
                     
-                    // Handle response
+                    // Handle 404 error specifically
+                    if (response.status === 404) {
+                        throw new Error(`API endpoint not found. Please check the Vercel configuration. 
+                        Make sure the API function is properly deployed and the environment variables are set.`);
+                    }
+                    
+                    // Handle other HTTP errors
                     if (!response.ok) {
-                        throw new Error(`Server error: ${response.status}`);
+                        throw new Error(`Server error: ${response.status} - ${response.statusText}`);
                     }
 
                     // Get the raw response text first for debugging
                     const rawText = await response.text();
                     console.log('Raw response:', rawText);
                     
+                    if (!rawText.trim()) {
+                        throw new Error('Empty response from server');
+                    }
+                    
+                    // Parse the response as JSON
                     let responseData;
                     try {
-                        // Parse the raw text as JSON
                         responseData = JSON.parse(rawText);
+                        console.log('Parsed response:', responseData);
                     } catch (e) {
                         console.error('Failed to parse response as JSON:', e);
-                        throw new Error('Unable to understand the server response');
+                        throw new Error('Unable to parse server response as JSON. Check that the API is returning valid JSON.');
                     }
 
                     // Check if response data is valid
@@ -977,15 +993,18 @@
                         addMessage(assistantMessage);
                     } else {
                         console.error('Invalid response data:', responseData);
-                        throw new Error(responseData.error || 'Invalid response from server');
+                        throw new Error(responseData.error || 'Invalid response format from server');
                     }
                 } catch (error) {
                     console.error('Chat error:', error);
                     
-                    // Show error message
+                    // Show a detailed error message to help debugging
+                    const errorMessage = error.message || 'Failed to get a response';
+                    const errorWithDetails = `Error: ${errorMessage}\n\nPlease check:\n1. API endpoint is deployed\n2. OpenAI API key is set\n3. Vercel logs for more details`;
+                    
                     addMessage({
                         role: 'error',
-                        content: error.message || 'Failed to get a response',
+                        content: errorWithDetails,
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
                 } finally {
