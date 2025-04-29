@@ -769,14 +769,17 @@
                 aboutModal.classList.add('hidden');
             });
             
+            // Store chat conversations for each nerd
+            let chatHistory = {};
+            let currentNerdName = '';
+            let currentNerdExpertise = '';
+
             // Chat functionality
             const chatPanel = document.getElementById('chatPanel');
             const chatMessages = document.getElementById('chatMessages');
             const chatInput = document.getElementById('chatInput');
             const sendButton = document.getElementById('sendMessage');
             const chatButtons = document.querySelectorAll('.btn-chat, .btn-chat-modal');
-            let currentNerdName = '';
-            let currentNerdExpertise = '';
 
             // Enable/disable send button based on input
             chatInput.addEventListener('input', function() {
@@ -799,7 +802,7 @@
             // Chat button click handler
             chatButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                        const card = this.closest('.nerd-card');
+                    const card = this.closest('.nerd-card');
                     const modal = document.getElementById('aboutModal');
                     
                     // Get nerd info either from card or modal
@@ -815,12 +818,23 @@
                     document.querySelector('.chat-nerd-name').textContent = currentNerdName;
                     chatPanel.classList.remove('hidden');
                     
-                    // Only clear and add welcome message if there are no messages
-                    if (!chatMessages.children.length) {
+                    // Clear chat messages and load history for this nerd
+                    chatMessages.innerHTML = '';
+                    
+                    // Get or initialize chat history for this nerd
+                    if (!chatHistory[currentNerdName]) {
+                        chatHistory[currentNerdName] = [];
                         // Add welcome message
-                        addMessage({
+                        const welcomeMessage = {
                             role: 'assistant',
                             content: `I'm ${currentNerdName}, ready to help with ${currentNerdExpertise}.`
+                        };
+                        chatHistory[currentNerdName].push(welcomeMessage);
+                        addMessage(welcomeMessage);
+                    } else {
+                        // Load existing chat history
+                        chatHistory[currentNerdName].forEach(msg => {
+                            addMessage(msg);
                         });
                     }
 
@@ -831,95 +845,36 @@
                     if (modal && !modal.classList.contains('hidden')) {
                         modal.classList.add('hidden');
                     }
+                    
+                    // Update body class for mobile
+                    document.body.classList.add('chat-open');
                 });
             });
             
             // Close chat panel
             document.querySelector('.chat-close').addEventListener('click', function() {
-                chatPanel.classList.add('hidden');
+                chatPanel.classList.remove('hidden');
+                document.body.classList.remove('chat-open');
             });
             
-            async function sendMessage() {
-                const message = chatInput.value.trim();
-                if (!message) return;
-
-                // Clear input and disable send button
-                chatInput.value = '';
-                sendButton.disabled = true;
-
-                // Add user message
-                addMessage({
-                    role: 'user',
-                    content: message
-                });
-
-                // Add typing indicator
-                const typingIndicator = addTypingIndicator();
-
-                try {
-                    // Get the current URL for the API endpoint
-                    const apiUrl = window.location.origin + '/api/chat';
-                    console.log('Sending request to:', apiUrl); // Debug log
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            message: message,
-                            nerdName: currentNerdName || '',
-                            nerdExpertise: currentNerdExpertise || ''
-                        })
-                    });
-
-                    // Remove typing indicator
-                    typingIndicator.remove();
-
-                    // Get the raw response first
-                    const responseText = await response.text();
-                    console.log('Raw response:', responseText); // Debug log
-
-                    let data;
-                    try {
-                        data = JSON.parse(responseText);
-                    } catch (e) {
-                        console.error('Failed to parse response:', e);
-                        throw new Error('Server response was not in the correct format. Please try again.');
-                    }
-
-                    if (!response.ok) {
-                        const errorMessage = data.error || 'An error occurred while processing your request.';
-                        console.error('Server error:', errorMessage);
-                        throw new Error(errorMessage);
-                    }
-
-                    if (data.status === 'success' && data.response) {
-                        addMessage({
-                            role: 'assistant',
-                            content: data.response
-                        });
-                    } else {
-                        console.error('Invalid response format:', data);
-                        throw new Error('Received an invalid response from the server.');
-                    }
-                } catch (error) {
-                    console.error('Chat error:', error);
-                    
-                    // Show a user-friendly error message
-                    addMessage({
-                        role: 'error',
-                        content: error.message || 'Failed to get a response. Please try again.'
-                    });
-                } finally {
-                    // Always re-enable the input
-                    sendButton.disabled = false;
-                    chatInput.focus();
-                }
-            }
-
             function addMessage(message) {
                 if (!message?.content) return;
+
+                // Save to history if not already there
+                if (currentNerdName && chatHistory[currentNerdName]) {
+                    if (!chatHistory[currentNerdName].some(m => 
+                        m.role === message.role && 
+                        m.content === message.content && 
+                        m.time === message.time)) {
+                        
+                        // Add timestamp if not already there
+                        if (!message.time) {
+                            message.time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        }
+                        
+                        chatHistory[currentNerdName].push(message);
+                    }
+                }
 
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `chat-message ${message.role === 'user' ? 'user-message' : message.role === 'error' ? 'error-message' : 'nerd-message'}`;
@@ -942,13 +897,91 @@
 
                 const timeSpan = document.createElement('span');
                 timeSpan.className = 'message-time';
-                timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                timeSpan.textContent = message.time || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                 messageDiv.appendChild(contentWrapper);
                 messageDiv.appendChild(timeSpan);
                 
                 chatMessages.appendChild(messageDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            async function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                // Clear input and disable send button
+                chatInput.value = '';
+                sendButton.disabled = true;
+
+                // Add user message
+                const userMessage = {
+                    role: 'user',
+                    content: message,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                };
+                addMessage(userMessage);
+
+                // Add typing indicator
+                const typingIndicator = addTypingIndicator();
+
+                try {
+                    // Direct API URL without using window.location
+                    // This ensures it works on any domain including Vercel
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            nerdName: currentNerdName || '',
+                            nerdExpertise: currentNerdExpertise || ''
+                        })
+                    });
+
+                    // Remove typing indicator
+                    typingIndicator.remove();
+
+                    // Handle response
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+
+                    // Try to parse response as JSON
+                    let responseData;
+                    try {
+                        responseData = await response.json();
+                    } catch (e) {
+                        console.error('Failed to parse response as JSON');
+                        throw new Error('Unable to understand the server response');
+                    }
+
+                    // Check if response data is valid
+                    if (responseData && responseData.status === 'success' && responseData.response) {
+                        const assistantMessage = {
+                            role: 'assistant',
+                            content: responseData.response,
+                            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                        };
+                        addMessage(assistantMessage);
+                    } else {
+                        throw new Error(responseData.error || 'Invalid response from server');
+                    }
+                } catch (error) {
+                    console.error('Chat error:', error);
+                    
+                    // Show error message
+                    addMessage({
+                        role: 'error',
+                        content: error.message || 'Failed to get a response',
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    });
+                } finally {
+                    // Always re-enable the input
+                    sendButton.disabled = false;
+                    chatInput.focus();
+                }
             }
 
             function addTypingIndicator() {
