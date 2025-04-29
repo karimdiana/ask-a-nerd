@@ -544,6 +544,8 @@
             height: 100%;
             width: 100%;
             position: relative;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         .chat-input {
@@ -551,7 +553,7 @@
             height: 45px;
             min-height: 45px;
             max-height: 45px;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 8px;
             border: 1px solid #cbd5e1;
             resize: none;
@@ -565,7 +567,7 @@
         }
 
         .chat-send-btn {
-            width: 80%;
+            width: 90%;
             height: 45px;
             min-height: 45px;
             max-height: 45px;
@@ -578,18 +580,18 @@
             cursor: pointer;
             transition: none;
             display: block;
-            margin: auto;
-            margin-top: 20px;
+            margin: 10px auto 0; /* Reduced top margin */
             z-index: 10;
             position: relative;
         }
 
-        .chat-send-btn:hover {
-            background: #0d6efd;
-        }
-
         .chat-send-btn:disabled {
             background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .chat-send-btn:hover:not(:disabled) {
+            background: #0b5ed7;
         }
 
         .chat-messages {
@@ -1018,6 +1020,92 @@
         .message-content p {
             margin-bottom: 0.8rem;
         }
+
+        /* Additional fixes for mobile chat */
+        @media (max-width: 768px) {
+            .chat-input-wrapper {
+                position: relative;
+                z-index: 30;
+                background: white;
+                border-top: 1px solid #e2e8f0;
+                padding: 10px;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            
+            .chat-input {
+                width: 100%;
+                border: 1px solid #cbd5e1;
+                background: white;
+                font-size: 16px;
+                margin-bottom: 8px; /* Add margin below input */
+            }
+            
+            .chat-send-btn {
+                width: 100%;
+                margin-top: 5px; /* Reduce space between input and button */
+                height: 45px;
+                min-height: 45px;
+                max-height: 45px;
+                margin-bottom: 5px;
+            }
+            
+            .chat-footer {
+                padding: 0;
+                background: white;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+                height: 120px; /* Reduced height */
+            }
+            
+            /* Update padding to account for smaller footer */
+            #chatMessages {
+                padding-bottom: 140px !important;
+            }
+            
+            /* Improve button tap target */
+            .chat-send-btn {
+                -webkit-tap-highlight-color: rgba(0,0,0,0);
+                touch-action: manipulation;
+            }
+            
+            /* Ensure proper message display on mobile */
+            #chatMessages {
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                position: relative;
+                z-index: 5;
+                background-color: white;
+            }
+            
+            /* Fix modal content scroll */
+            .modal-content {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Prevent input zoom on iOS */
+            input, textarea, select {
+                font-size: 16px !important;
+            }
+            
+            /* Modal styling fixes */
+            .modal-overlay {
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+            }
+            
+            /* Fix for chat modal */
+            .chat-modal-inner {
+                overflow: hidden !important;
+                height: 100% !important;
+                display: flex;
+                flex-direction: column;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
@@ -1412,7 +1500,7 @@
             });
 
             // Add functionality to send messages
-            sendMessageButton.addEventListener('click', function() {
+            const sendMessage = function() {
                 const message = chatInput.value.trim();
                 if (message) {
                     // Get current nerd name
@@ -1524,6 +1612,19 @@
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     });
                 }
+            };
+
+            // Add click handler for the send button
+            sendMessageButton.addEventListener('click', sendMessage);
+            
+            // Allow sending message with Enter key
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendMessageButton.disabled) {
+                        sendMessage();
+                    }
+                }
             });
             
             // Helper function to get nerd expertise based on name
@@ -1534,16 +1635,6 @@
                 }
                 return 'various topics';
             }
-            
-            // Allow sending message with Enter key
-            chatInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (!sendMessageButton.disabled) {
-                        sendMessageButton.click();
-                    }
-                }
-            });
             
             // Also add chat functionality to the "Chat with Me" button in the about modal
             document.querySelector('.btn-chat-modal').addEventListener('click', function() {
