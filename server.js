@@ -1,75 +1,37 @@
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const OpenAI = require('openai');
-const config = require('./config');
-
+const path = require('path');
 const app = express();
 
-// Configure OpenAI
-const openai = new OpenAI({
-    apiKey: config.openai.apiKey
-});
-
 // Middleware
-app.use(cors());
 app.use(express.json());
-app.use(express.static('.')); // Serve static files from current directory
+app.use(express.static(path.join(__dirname)));
 
-// Validate OpenAI API key middleware
-app.use((req, res, next) => {
-    if (!config.openai.apiKey) {
-        return res.status(500).json({
-            status: 'error',
-            error: 'OpenAI API key is not configured'
-        });
-    }
-    next();
+// Routes
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
-// Chat endpoint
-app.post('/api/chat', async (req, res) => {
-    try {
-        const { message, nerdName, nerdExpertise } = req.body;
-
-        if (!message) {
-            return res.status(400).json({
-                status: 'error',
-                error: 'Message is required'
-            });
+// API Routes
+app.get('/api/user/profile/:id', (req, res) => {
+    // Your profile logic here
+    res.json({
+        success: true,
+        user: {
+            name: 'Test User',
+            email: 'test@example.com',
+            categories: ['Technology', 'Business']
         }
+    });
+});
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
-            messages: [
-                {
-                    role: "system",
-                    content: `You are ${nerdName}, an expert in ${nerdExpertise}. Provide clear, professional responses within your area of expertise.`
-                },
-                {
-                    role: "user",
-                    content: message
-                }
-            ],
-            temperature: 0.7,
-            max_tokens: 500
-        });
-
-        const response = completion.choices[0].message.content;
-
-        res.json({
-            status: 'success',
-            response
-        });
-    } catch (error) {
-        console.error('OpenAI API error:', error);
-        res.status(500).json({
-            status: 'error',
-            error: 'Failed to get response from AI'
-        });
-    }
+app.post('/api/user/categories/:id', (req, res) => {
+    // Your categories update logic here
+    res.json({ success: true });
 });
 
 // Start server
-app.listen(config.server.port, () => {
-    console.log(`Server running on port ${config.server.port}`);
-}); 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

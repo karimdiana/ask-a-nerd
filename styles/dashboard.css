@@ -2,20 +2,22 @@
 
 /* Font updates */
 body {
-    font-family: 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 400;
-    background-color: #f5f7fa;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6, .btn, .category-tab {
-    font-family: 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 
 /* Enhanced Header Styling */
 .app-header {
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
 }
 
 .header-title {
@@ -66,64 +68,72 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
 
 /* Greeting banner */
 .greeting-banner {
-    margin-bottom: 2rem;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    background: linear-gradient(135deg, #EAF4FF, #D6E9FF);
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    margin: 2rem 0;
+    padding: 2.5rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--primary-light), #EAF4FF);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(0, 122, 255, 0.1);
 }
 
 .greeting-text {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #0d6efd;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+    letter-spacing: -0.03em;
 }
 
 .greeting-subtitle {
     color: var(--text-light);
     font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 500;
+    letter-spacing: -0.01em;
 }
 
 /* Category tabs */
 .category-tabs {
     display: flex;
     overflow-x: auto;
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    margin: 0 -0.5rem 2rem -0.5rem;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    gap: 0.75rem;
 }
 
 .category-tabs::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
+    display: none;
 }
 
 .category-tab {
-    background: none;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    margin-right: 0.75rem;
-    border-radius: 20px;
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 0.85rem 1.75rem;
+    border-radius: 16px;
     font-weight: 500;
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.2s ease;
-    background-color: #f0f4f8;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    flex-shrink: 0;
+    letter-spacing: -0.01em;
 }
 
 .category-tab:hover {
-    transform: none;
-    background-color: #f0f4f8;
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
 }
 
 .category-tab.active {
     background-color: var(--primary-color);
     color: white;
-    box-shadow: 0 3px 10px rgba(0, 122, 255, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
 }
 
 /* Search and sorting controls */
@@ -131,29 +141,30 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     flex-wrap: wrap;
     gap: 1rem;
 }
 
 .search-container {
     flex: 1;
+    min-width: 280px;
     position: relative;
 }
 
 .search-input {
     width: 100%;
-    padding: 0.85rem 1.2rem 0.85rem 3rem;
-    border-radius: 30px;
+    padding: 1rem 1.2rem 1rem 3rem;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
     background-color: white;
     font-size: 1rem;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: all 0.3s ease;
 }
 
 .search-input:focus {
-    box-shadow: 0 3px 15px rgba(0, 122, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.1);
     border-color: var(--primary-color);
     outline: none;
 }
@@ -206,159 +217,13 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     height: 20px;
 }
 
-/* Updated Nerd Card Styling */
-.nerd-card {
-    padding: 1.5rem;
-    position: relative;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.nerd-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #0d6efd, #0a58ca);
-    border-radius: 6px 6px 0 0;
-}
-
-.nerd-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.nerd-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-    padding-top: 0.5rem;
-}
-
-.nerd-info-primary {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.nerd-name {
-    margin-bottom: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #334155;
-}
-
-.online-status {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: var(--success-color);
-    display: inline-block;
-    box-shadow: 0 0 0 2px white;
-}
-
-.online-status.offline {
-    background-color: #cbd5e1;
-}
-
-.favorite-btn {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 2;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.favorite-btn:hover {
-    transform: scale(1.15);
-}
-
-.favorite-btn.active {
-    color: #ff3b5c;
-}
-
-.favorite-btn.active path {
-    fill: #ff3b5c;
-    stroke: #ff3b5c;
-}
-
-.nerd-categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.category-tag {
-    display: inline-block;
-    padding: 0.35rem 0.85rem;
-    border-radius: 20px;
-    background-color: #eef2ff;
-    color: #4f46e5;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-}
-
-.nerd-mini-bio {
-    font-size: 0.95rem;
-    color: #64748b;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.nerd-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: auto;
-}
-
-.btn-chat, .btn-about {
-    flex: 1;
-    padding: 0.75rem 0.75rem;
-    font-size: 0.95rem;
-    border-radius: 12px;
-    font-weight: 500;
-}
-
-.btn-chat {
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
-}
-
-.btn-about {
-    border-color: #cbd5e1;
-    color: #475569;
-}
-
-.btn-about:hover {
-    background-color: #f1f5f9;
-    color: #334155;
-    border-color: #94a3b8;
+/* Nerds Grid */
+.nerds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    justify-items: center;
 }
 
 /* Modal Styling */
@@ -423,6 +288,7 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     font-size: 1.5rem;
     color: #334155;
     font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 .modal-close {
@@ -486,6 +352,7 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     font-weight: 600;
     color: #334155;
     margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
 }
 
 .about-nerd-categories {
@@ -551,6 +418,7 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     font-weight: 600;
     color: #334155;
     font-size: 1.05rem;
+    letter-spacing: -0.01em;
 }
 
 .review-stars {
@@ -562,6 +430,8 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     color: #475569;
     font-size: 0.95rem;
     line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: -0.01em;
 }
 
 .modal-footer {
@@ -731,48 +601,52 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     display: none !important;
 }
 
-/* Nerd image styling */
-.nerd-image {
-    position: relative;
-    margin: 0 auto;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: white;
-    border: 2px solid #0d6efd;
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .greeting-banner {
-        padding: 1.25rem;
-        margin-bottom: 1.5rem;
+        margin: 1.5rem 0;
+        padding: 2rem;
+        border-radius: 20px;
     }
     
     .greeting-text {
-        font-size: 1.5rem;
-    }
-    
-    .greeting-subtitle {
-        font-size: 1rem;
+        font-size: 1.75rem;
     }
     
     .controls-row {
         flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
     }
     
-    .sort-favorites {
+    .search-container {
         width: 100%;
-        justify-content: center;
-        margin-top: 1rem;
+    }
+    
+    .nerds-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .nerd-card {
+        border-radius: 20px;
+    }
+    
+    .nerd-card-inner {
+        padding: 1.5rem;
+    }
+    
+    .nerd-image {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .nerd-name {
+        font-size: 1.35rem;
     }
     
     .category-tab {
-        padding: 0.6rem 1rem;
+        padding: 0.75rem 1.25rem;
         font-size: 0.9rem;
     }
     
@@ -884,7 +758,7 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
         z-index: 11;
     }
     
-    .nerd-actions {
+    .nerd-actions-section {
         flex-direction: column;
     }
 
@@ -931,7 +805,7 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     }
     
     /* Center the nerd name on mobile */
-    .nerd-info-primary {
+    .nerd-info-section {
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -939,12 +813,12 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
     }
     
     /* Center categories */
-    .nerd-categories {
+    .nerd-tags-container {
         justify-content: center;
     }
     
     /* Center the bio text */
-    .nerd-mini-bio {
+    .about-nerd-bio {
         text-align: center;
     }
     
@@ -1006,5 +880,387 @@ h1, h2, h3, h4, h5, h6, .btn, .category-tab {
         width: 2.2rem;
         height: 2.2rem;
         right: 1.3rem;
+    }
+}
+
+/* Nerd Card Styling */
+.nerd-card {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    min-height: 380px;
+    padding: 0;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    margin: 1rem;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nerd-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.nerd-card-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.nerd-image-section {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background-color: #f8fafc;
+}
+
+.nerd-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.nerd-info-section {
+    width: 100%;
+    padding: 20px 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.nerd-name {
+    margin: 0 0 15px 0;
+    padding: 0;
+    width: 100%;
+    font-size: 24px;
+    color: #1e293b;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+}
+
+.nerd-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.category-tag {
+    margin: 0;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.1);
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.category-tag:hover {
+    background-color: rgba(13, 110, 253, 0.15);
+}
+
+.nerd-actions-section {
+    width: 100%;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.action-button {
+    height: 48px;
+    width: 100%;
+    border-radius: 24px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: -0.01em;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0a58ca, #084298);
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    background: white;
+    color: #0d6efd;
+    border: 2px solid #0d6efd;
+}
+
+.btn-outline-primary:hover {
+    background: rgba(13, 110, 253, 0.05);
+    transform: translateY(-1px);
+}
+
+/* Chat Modal Styling */
+.chat-modal {
+    max-width: 480px;
+    width: 100%;
+    height: 80vh;
+    max-height: 720px;
+    margin: 0;
+    padding: 0;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.chat-modal-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: white;
+}
+
+.chat-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-nerd-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+}
+
+.chat-status {
+    font-size: 14px;
+    color: #22c55e;
+    margin: 0;
+    font-weight: 500;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.chat-message {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.chat-message.user-message {
+    align-self: flex-end;
+}
+
+.chat-message.nerd-message {
+    align-self: flex-start;
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.user-message .message-content {
+    background: #0d6efd;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.nerd-message .message-content {
+    background: white;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.typing-indicator .message-content {
+    background: white;
+    color: #64748b;
+    font-style: italic;
+}
+
+.chat-footer {
+    padding: 16px;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: 8px;
+    background: #f1f5f9;
+    border-radius: 24px;
+    padding: 4px;
+}
+
+.chat-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #1e293b;
+    font-family: inherit;
+}
+
+.chat-input:focus {
+    outline: none;
+}
+
+.chat-input::placeholder {
+    color: #94a3b8;
+}
+
+.chat-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #0d6efd;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.chat-send-btn:hover {
+    background: #0a58ca;
+    transform: scale(1.05);
+}
+
+.chat-send-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Typography */
+.greeting-text {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.greeting-subtitle {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.category-tab {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.modal-title {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.about-nerd-name {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.review-author {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.review-text {
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nerds-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .nerd-card {
+        max-width: 100%;
+        min-height: 340px;
+        margin: 0;
+    }
+    
+    .nerd-image-section {
+        height: 180px;
+    }
+
+    .nerd-name {
+        font-size: 22px;
+    }
+
+    .category-tag {
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+
+    .action-button {
+        height: 44px;
+        font-size: 15px;
+    }
+
+    .chat-modal {
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    .chat-message {
+        max-width: 90%;
     }
 }

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerd - Find Your Expert</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="gradient-bg">
+    <div class="container">
+        <div class="auth-card">
+            <div class="logo-container">
+                <img src="photos/nerd.png" alt="Nerd Logo" class="app-logo">
+            </div>
+            <h1 class="app-title">Ask A Nerd</h1>
+            <p class="app-subtitle">Connect with experts in any field</p>
+            
+            <div class="user-type-toggle">
+                <button class="toggle-btn active" data-type="nerd">I'm a Nerd</button>
+                <button class="toggle-btn" data-type="tester">I'm a Tester</button>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" data-tab="signin">Sign In</button>
+                <button class="tab" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <div class="tab-content" id="signin">
+                <form class="auth-form" onsubmit="handleSignIn(event)">
+                    <div class="form-group" id="nerd-fields">
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group" id="nerd-fields">
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div id="signin-error" class="error-message" style="display: none; color: red; margin-bottom: 10px;"></div>
+                    <button type="submit" class="btn btn-primary" id="signin-btn">Sign In</button>
+                </form>
+                <p class="switch-prompt">New here? <a href="#" class="switch-tab" data-tab="signup">Sign up now</a></p>
+            </div>
+            
+            <div class="tab-content hidden" id="signup">
+                <form class="auth-form" onsubmit="handleSignUp(event)">
+                    <div class="form-group" id="nerd-signup-fields">
+                        <input type="text" id="signup-name" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group" id="nerd-signup-fields">
+                        <input type="email" id="signup-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group" id="nerd-signup-fields">
+                        <input type="password" id="signup-password" placeholder="Password" required>
+                    </div>
+                    <div id="signup-error" class="error-message" style="display: none; color: red; margin-bottom: 10px;"></div>
+                    <button type="submit" class="btn btn-primary" id="signup-btn">Sign Up</button>
+                </form>
+                <p class="switch-prompt">Already have an account? <a href="#" class="switch-tab" data-tab="signin">Log in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUserType = 'nerd';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab');
+            const switchLinks = document.querySelectorAll('.switch-tab');
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            const nerdFields = document.querySelectorAll('#nerd-fields');
+            const nerdSignupFields = document.querySelectorAll('#nerd-signup-fields');
+            const signinBtn = document.getElementById('signin-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            
+            const switchTab = (tabId) => {
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+                document.getElementById(tabId).classList.remove('hidden');
+                tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.tab === tabId));
+            };
+            
+            tabs.forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
+            switchLinks.forEach(link => link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab(link.dataset.tab);
+            }));
+
+            // Handle user type toggle
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentUserType = btn.dataset.type;
+                    
+                    // Show/hide fields based on user type
+                    nerdFields.forEach(field => {
+                        field.style.display = currentUserType === 'tester' ? 'none' : 'block';
+                    });
+                    nerdSignupFields.forEach(field => {
+                        field.style.display = currentUserType === 'tester' ? 'none' : 'block';
+                    });
+
+                    // Update sign in button behavior
+                    if (currentUserType === 'tester') {
+                        signinBtn.onclick = (e) => {
+                            e.preventDefault();
+                            window.location.href = 'categories.html';
+                        };
+                        signupBtn.onclick = (e) => {
+                            e.preventDefault();
+                            window.location.href = 'categories.html';
+                        };
+                    } else {
+                        signinBtn.onclick = null; // Reset to default form submission
+                        signupBtn.onclick = null; // Reset to default form submission
+                    }
+                });
+            });
+        });
+
+        async function handleSignIn(event) {
+            event.preventDefault();
+            const errorDiv = document.getElementById('signin-error');
+            errorDiv.style.display = 'none';
+            
+            // If user is a tester, redirect directly
+            if (currentUserType === 'tester') {
+                window.location.href = 'categories.html';
+                return;
+            }
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                console.log('Sending signin request:', { email, userType: currentUserType });
+                const response = await fetch('/api/auth/signin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        email, 
+                        password,
+                        userType: currentUserType 
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Signin response:', data);
+                
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('userId', data.user._id);
+                    localStorage.setItem('userType', data.user.userType);
+                    localStorage.setItem('userEmail', data.user.email);
+                    localStorage.setItem('userName', data.user.name);
+
+                    // Redirect based on user type
+                    if (data.user.userType === 'recruiter') {
+                        window.location.href = 'categories.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    errorDiv.textContent = data.error || 'Failed to sign in';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Sign in error:', error);
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        async function handleSignUp(event) {
+            event.preventDefault();
+            const errorDiv = document.getElementById('signup-error');
+            errorDiv.style.display = 'none';
+            
+            // If user is a tester, redirect directly
+            if (currentUserType === 'tester') {
+                window.location.href = 'categories.html';
+                return;
+            }
+
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            try {
+                console.log('Sending signup request:', { name, email, userType: currentUserType });
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        userType: currentUserType
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Signup response:', data);
+                
+                if (data.success) {
+                    alert('Account created successfully! Please sign in.');
+                    // Switch to sign in tab
+                    document.querySelector('.tab[data-tab="signin"]').click();
+                } else {
+                    errorDiv.textContent = data.error || 'Sign up failed';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Sign up error:', error);
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html> 

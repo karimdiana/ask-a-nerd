@@ -23,7 +23,7 @@
             </a>
         </div>
         <div class="header-right">
-            <a href="index.html" class="signout-btn">Sign Out</a>
+            <a href="#" class="signout-btn" id="signoutBtn">Sign Out</a>
         </div>
     </header>
 
@@ -33,160 +33,31 @@
                 <!-- Profile Header -->
                 <div class="account-header">
                     <img src="photos/1.avif" alt="Profile Picture" class="account-avatar">
-                    <h1 class="account-name">Diana K</h1>
-                    <p class="account-email">testing@example.com</p>
+                    <h1 class="account-name" id="userName">Loading...</h1>
+                    <p class="account-email" id="userEmail">Loading...</p>
                 </div>
 
-                <!-- Stats Overview -->
-                <div class="account-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Chats Started</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">5</div>
-                        <div class="stat-label">Favorite Nerds</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">3</div>
-                        <div class="stat-label">Categories</div>
-                    </div>
-                </div>
+       
 
                 <div class="account-content">
                     <!-- Interests Section -->
                     <div class="account-section">
                         <div class="account-section-header">
                             <h2 class="account-section-title">My Interests</h2>
-                            <a href="#" class="account-section-action">Edit</a>
+                            <button id="editCategoriesBtn" class="account-section-action">Edit</button>
                         </div>
-                        <div class="account-categories">
-                            <span class="category-tag">Business</span>
-                            <span class="category-tag">Marketing</span>
-                            <span class="category-tag">Entrepreneurship</span>
+                        <div class="account-categories" id="userCategories">
+                            <!-- Categories will be loaded here -->
                         </div>
-                    </div>
-
-                    <!-- Favorite Nerds Section -->
-                    <div class="account-section">
-                        <div class="account-section-header">
-                            <h2 class="account-section-title">Favorite Nerds</h2>
-                            <a href="#" class="account-section-action">View All</a>
-                        </div>
-                        <div class="nerds-grid">
-                            <!-- Simplified Nerd Cards for Favorites -->
-                            <div class="nerd-card">
-                                <div class="nerd-card-header">
-                                    <div class="nerd-info-primary">
-                                        <h3 class="nerd-name">Andrew DeBad</h3>
-                                    </div>
-                                    <button class="favorite-btn active">
-                                        <svg width="20" height="18" viewBox="0 0 20 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 17.25L8.55 16.0125C4.15 12.1125 1.25 9.5125 1.25 6.375C1.25 3.775 3.275 1.75 5.875 1.75C7.35 1.75 8.7625 2.4375 9.625 3.5C10.4875 2.4375 11.9 1.75 13.375 1.75C15.975 1.75 18 3.775 18 6.375C18 9.5125 15.1 12.1125 10.7 16.0125L9.25 17.25H10Z" stroke="currentColor" stroke-width="1.5"/>
-                                        </svg>
-                                    </button>
+                        <div id="categoryEditForm" class="category-edit-form" style="display: none;">
+                            <div class="category-edit-content">
+                                <h3>Edit Categories</h3>
+                                <div class="category-edit-list" id="categoryEditList">
+                                    <!-- Predefined categories will be loaded here -->
                                 </div>
-                                <div class="nerd-categories">
-                                    <span class="category-tag">Business</span>
-                                    <span class="category-tag">Executive</span>
-                                </div>
-                                <div class="nerd-image" style="background-image: url('photos/andrew.png')"></div>
-                                
-                                <!-- Reviews Section -->
-                                <div class="nerd-reviews">
-                                    <div class="reviews-header">
-                                        <h4 class="reviews-title">Reviews</h4>
-                                        <span class="review-count">12 reviews</span>
-                                    </div>
-                                    <div class="review-list">
-                                        <div class="review-card">
-                                            <div class="review-header">
-                                                <div class="reviewer-info">
-                                                    <img src="photos/2.jpg" alt="Sarah M." class="reviewer-avatar">
-                                                    <div class="reviewer-details">
-                                                        <span class="reviewer-name">Sarah M.</span>
-                                                        <span class="review-date">2 weeks ago</span>
-                                                    </div>
-                                                </div>
-                                                <div class="review-rating">
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                </div>
-                                            </div>
-                                            <p class="review-content">Andrew provided excellent insights for our business strategy. His experience in the industry really shows in his practical advice.</p>
-                                            <div class="review-tags">
-                                                <span class="review-tag">Strategic Planning</span>
-                                                <span class="review-tag">Leadership</span>
-                                            </div>
-                                            <div class="review-footer">
-                                                <div class="review-helpful">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path d="M3 7L8 12L13 7" stroke="currentColor" stroke-width="2"/>
-                                                    </svg>
-                                                    <span class="helpful-count">24</span> found this helpful
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="review-card">
-                                            <div class="review-header">
-                                                <div class="reviewer-info">
-                                                    <img src="photos/3.jpg" alt="Michael P." class="reviewer-avatar">
-                                                    <div class="reviewer-details">
-                                                        <span class="reviewer-name">Michael P.</span>
-                                                        <span class="review-date">1 month ago</span>
-                                                    </div>
-                                                </div>
-                                                <div class="review-rating">
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">★</span>
-                                                    <span class="star-icon">☆</span>
-                                                </div>
-                                            </div>
-                                            <p class="review-content">Great executive perspective on scaling businesses. Would have loved more specific examples, but overall very valuable session.</p>
-                                            <div class="review-tags">
-                                                <span class="review-tag">Scaling</span>
-                                                <span class="review-tag">Business Growth</span>
-                                            </div>
-                                            <div class="review-footer">
-                                                <div class="review-helpful">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path d="M3 7L8 12L13 7" stroke="currentColor" stroke-width="2"/>
-                                                    </svg>
-                                                    <span class="helpful-count">18</span> found this helpful
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="see-all-reviews">See all 12 reviews</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity Section -->
-                    <div class="account-section">
-                        <div class="account-section-header">
-                            <h2 class="account-section-title">Recent Activity</h2>
-                            <a href="#" class="account-section-action">View All</a>
-                        </div>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="activity-icon">💬</div>
-                                <div class="activity-content">
-                                    <p class="activity-text">Chat with <strong>Lisa Menu</strong> about marketing strategies</p>
-                                    <span class="activity-time">2 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">⭐</div>
-                                <div class="activity-content">
-                                    <p class="activity-text">Added <strong>Karl Fruit</strong> to favorites</p>
-                                    <span class="activity-time">Yesterday</span>
+                                <div class="category-edit-actions">
+                                    <button id="saveCategoriesBtn" class="btn-primary">Save</button>
+                                    <button id="cancelEditBtn" class="btn-secondary">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -222,23 +93,144 @@
     </main>
 
     <script>
+        // Predefined categories
+        const PREDEFINED_CATEGORIES = [
+            'Technology',
+            'Mathematics',
+            'Art & Design',
+            'Science',
+            'History',
+            'Business',
+            'Literature',
+            'Music'
+        ];
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Add click handlers for edit buttons
-            document.querySelectorAll('.account-section-action').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    // Add your edit functionality here
-                });
+            // Check if user is logged in or in tester mode
+            const userId = localStorage.getItem('userId');
+            const userEmail = localStorage.getItem('userEmail');
+            const userName = localStorage.getItem('userName');
+            const isTesterMode = localStorage.getItem('testerMode') === 'true';
+
+            // Only redirect if not logged in and not in tester mode
+            if (!userId && !isTesterMode) {
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            // Set initial user data from localStorage
+            document.getElementById('userName').textContent = userName || (isTesterMode ? 'Tester User' : 'User');
+            document.getElementById('userEmail').textContent = userEmail || (isTesterMode ? 'tester@example.com' : '');
+
+            // Handle sign out
+            document.getElementById('signoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = 'auth.html';
             });
 
-            // Add hover effects for interactive elements
-            document.querySelectorAll('.settings-item').forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateX(5px)';
+            // Load user profile only if not in tester mode
+            if (!isTesterMode) {
+                loadUserProfile();
+            } else {
+                // For tester mode, just show some default categories
+                const categoriesContainer = document.getElementById('userCategories');
+                categoriesContainer.innerHTML = '';
+                ['Technology', 'Business', 'Science'].forEach(category => {
+                    const tag = document.createElement('span');
+                    tag.className = 'category-tag';
+                    tag.textContent = category;
+                    categoriesContainer.appendChild(tag);
                 });
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                });
+            }
+
+            // Load user profile
+            async function loadUserProfile() {
+                try {
+                    const response = await fetch(`/api/user/profile/${userId}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        const user = data.user;
+                        // Update user data
+                        document.getElementById('userName').textContent = user.name || userName || 'User';
+                        document.getElementById('userEmail').textContent = user.email || userEmail || '';
+                        
+                        // Update categories
+                        const categoriesContainer = document.getElementById('userCategories');
+                        categoriesContainer.innerHTML = '';
+                        if (user.categories && user.categories.length > 0) {
+                            user.categories.forEach(category => {
+                                const tag = document.createElement('span');
+                                tag.className = 'category-tag';
+                                tag.textContent = category;
+                                categoriesContainer.appendChild(tag);
+                            });
+                            document.getElementById('categoryCount').textContent = user.categories.length;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading user profile:', error);
+                }
+            }
+
+            // Edit categories functionality
+            const editCategoriesBtn = document.getElementById('editCategoriesBtn');
+            const categoryEditForm = document.getElementById('categoryEditForm');
+            const saveCategoriesBtn = document.getElementById('saveCategoriesBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const categoryEditList = document.getElementById('categoryEditList');
+
+            editCategoriesBtn.addEventListener('click', function() {
+                categoryEditForm.style.display = 'flex';
+                // Get current user categories
+                const currentCategories = Array.from(document.querySelectorAll('.category-tag'))
+                    .map(tag => tag.textContent);
+                
+                // Create category checkboxes
+                categoryEditList.innerHTML = PREDEFINED_CATEGORIES.map(category => `
+                    <div class="category-checkbox-item">
+                        <input type="checkbox" 
+                               id="category-${category.toLowerCase()}" 
+                               value="${category}"
+                               ${currentCategories.includes(category) ? 'checked' : ''}>
+                        <label for="category-${category.toLowerCase()}">${category}</label>
+                    </div>
+                `).join('');
+            });
+
+            cancelEditBtn.addEventListener('click', function() {
+                categoryEditForm.style.display = 'none';
+            });
+
+            saveCategoriesBtn.addEventListener('click', async function() {
+                const selectedCategories = Array.from(document.querySelectorAll('.category-checkbox-item input:checked'))
+                    .map(input => input.value);
+
+                try {
+                    const response = await fetch(`/api/user/categories/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ categories: selectedCategories })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        categoryEditForm.style.display = 'none';
+                        loadUserProfile(); // Reload the profile to show updated categories
+                    }
+                } catch (error) {
+                    console.error('Error updating categories:', error);
+                }
+            });
+
+            // Close modal when clicking outside
+            categoryEditForm.addEventListener('click', function(e) {
+                if (e.target === categoryEditForm) {
+                    categoryEditForm.style.display = 'none';
+                }
             });
         });
     </script>
