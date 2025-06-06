@@ -3,13 +3,6 @@ module.exports = {
   // Helper to check required environment variables
   checkEnv: function() {
     const apiKey = process.env.OPENAI;
-    
-    if (!apiKey) {
-      console.error('Missing OPENAI environment variable!');
-    } else {
-      console.log('OpenAI API key found');
-    }
-    
     return !!apiKey;
   },
   

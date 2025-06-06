@@ -12,9 +12,6 @@ module.exports = async (req, res) => {
         return;
     }
 
-    // Log request for debugging
-    console.log('API Request:', req.url, req.method);
-
     // Extract the path from the URL
     const path = req.url.split('?')[0];
     
